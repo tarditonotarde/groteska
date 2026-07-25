@@ -33,6 +33,8 @@ class Groteska {
 
         this.progressBar = document.querySelector(".progress");
 
+        this.menuClose = document.querySelector(".menu-close");
+
         this.previous = 0;
 
     }
@@ -62,6 +64,16 @@ class Groteska {
             });
 
         }
+
+            if (this.menuClose) {
+
+    this.menuClose.addEventListener("click", () => {
+
+        this.closeMenu();
+
+    });
+
+}
 
         document.querySelectorAll(".menu-content a").forEach(link => {
 
@@ -102,6 +114,8 @@ class Groteska {
         document.body.classList.remove("menu-open");
 
     }
+
+
 
     scrollHeader() {
 
