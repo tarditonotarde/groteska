@@ -386,9 +386,10 @@ left:0;
 
 width:100%;
 
-padding:20px 50px 20px 100px;
 
-display:grid;
+padding: 20px 40px;
+        display: flex;
+        justify-content: space-between;
 
 grid-template-columns:
 
@@ -1098,9 +1099,11 @@ padding: 100px 0;
 
 text-align:center;
 
-max-width:760px;
 
 margin:auto;
+
+border-top:1px solid var(--line);
+
 
 }
 
