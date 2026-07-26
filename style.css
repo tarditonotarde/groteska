@@ -625,37 +625,37 @@ HEADER
 
 .menu {
 
-    justify-self: end;
+    justify-self: end !important;
 
     color: #111 !important;
 
-    top: 2rem;
-    right: 2rem;
+    top: 2rem   !important;
+    right: 2rem !important;
 
-    width: 48px;
-    height: 48px;
+    width: 48px !important;
+    height: 48px !important;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
 
-    border: none;
-    background: transparent;
+    border: none !important;
+    background: transparent !important;
 
-    font-size: 2rem;
-    line-height: 1;
+    font-size: 2rem !important;
+    line-height: 1 !important;
 
 
-    cursor: pointer;
+    cursor: pointer !important;
 
-    transition: .3s ease;
+    transition: .3s ease !important;
 
 }
 
 .menu:hover {
-    transform: rotate(90deg);
+    transform: rotate(90deg) !important;
     color: #777 !important;
-    cursor: pointer;
+    cursor: pointer !important;
 }
 
 
@@ -1586,7 +1586,7 @@ img.loaded {
 
     left: 0;
 
-    height: 10px;
+    height: 10px !important;
 
     width: 0;
 
