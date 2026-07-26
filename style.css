@@ -373,7 +373,57 @@ SPACING
 
 }
 
+/* ==========================================
+LANGUAGES 
+========================================== */
 
+.language-switch{
+
+display:flex;
+align-items:center;
+gap:8px;
+
+font-family:var(--font-mono);
+font-size:.72rem;
+letter-spacing:.15em;
+text-transform:uppercase;
+
+}
+
+.language-switch span{
+
+opacity:.35;
+
+}
+
+.lang{
+
+background:none;
+border:none;
+padding:0;
+
+font:inherit;
+
+color:#111;
+opacity:.35;
+
+cursor:pointer;
+
+transition:opacity .25s ease;
+
+}
+
+.lang:hover{
+
+opacity:1;
+
+}
+
+.lang.active{
+
+opacity:1;
+
+}
 
 /* ==========================================
 BACK TO TOP

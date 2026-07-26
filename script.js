@@ -278,3 +278,110 @@ backToTop.addEventListener("click", () => {
     });
 
 });
+
+/* ==========================================
+LANGUAGE SWITCHER
+========================================== */
+
+const buttons = document.querySelectorAll(".lang");
+
+const language = localStorage.getItem("lang") || "en";
+
+setLanguage(language);
+
+buttons.forEach(button => {
+
+    button.addEventListener("click", () => {
+
+        setLanguage(button.dataset.lang);
+
+    });
+
+});
+
+function setLanguage(lang) {
+
+    localStorage.setItem("lang", lang);
+
+    document.documentElement.lang = lang;
+
+    buttons.forEach(button => {
+
+        button.classList.toggle(
+            "active",
+            button.dataset.lang === lang
+        );
+
+    });
+
+    /* ---------- TEXT ---------- */
+
+    document.querySelectorAll("[data-en]").forEach(el => {
+
+        const value = el.getAttribute(`data-${lang}`);
+
+        if (value !== null) {
+
+            el.innerHTML = value;
+
+        }
+
+    });
+
+    /* ---------- PLACEHOLDER ---------- */
+
+    document.querySelectorAll("[data-placeholder-en]").forEach(el => {
+
+        const value = el.getAttribute(`data-placeholder-${lang}`);
+
+        if (value !== null) {
+
+            el.placeholder = value;
+
+        }
+
+    });
+
+    /* ---------- ALT ---------- */
+
+    document.querySelectorAll("[data-alt-en]").forEach(el => {
+
+        const value = el.getAttribute(`data-alt-${lang}`);
+
+        if (value !== null) {
+
+            el.alt = value;
+
+        }
+
+    });
+
+    /* ---------- TITLE ---------- */
+
+    document.querySelectorAll("[data-title-en]").forEach(el => {
+
+        const value = el.getAttribute(`data-title-${lang}`);
+
+        if (value !== null) {
+
+            el.title = value;
+
+        }
+
+    });
+
+    /* ---------- ARIA LABEL ---------- */
+
+    document.querySelectorAll("[data-aria-en]").forEach(el => {
+
+        const value = el.getAttribute(`data-aria-${lang}`);
+
+        if (value !== null) {
+
+            el.setAttribute("aria-label", value);
+
+        }
+
+    });
+
+}
