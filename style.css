@@ -476,6 +476,8 @@ HEADER
 
     font-family: var(--font-mono);
 
+    color: #111 !important;
+
     letter-spacing: .15em;
 
 }
