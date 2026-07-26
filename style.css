@@ -406,7 +406,7 @@ text-transform:uppercase;
         display: none;
     }
 
-    .mobile-language-switch {
+ .mobile-language-switch {
 display:flex;
 align-items:center;
 gap:8px;
@@ -627,13 +627,37 @@ HEADER
 
     justify-self: end;
 
-    font-family: var(--font-mono);
-
     color: #111 !important;
 
-    letter-spacing: .15em;
+    top: 2rem;
+    right: 2rem;
+
+    width: 48px;
+    height: 48px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: none;
+    background: transparent;
+
+    font-size: 2rem;
+    line-height: 1;
+
+
+    cursor: pointer;
+
+    transition: .3s ease;
 
 }
+
+.menu:hover {
+    transform: rotate(90deg);
+    color: #777 !important;
+    cursor: pointer;
+}
+
 
 .menu-overlay {
 
@@ -1562,7 +1586,7 @@ img.loaded {
 
     left: 0;
 
-    height: 4px;
+    height: 10px;
 
     width: 0;
 
