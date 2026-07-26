@@ -385,3 +385,175 @@ function setLanguage(lang) {
     });
 
 }
+
+/* ==========================================
+NEWSLETTER
+========================================== */
+
+const newsletterForm = document.getElementById("newsletter-form");
+
+const newsletterMessage = document.getElementById("newsletter-message");
+
+if(newsletterForm){
+
+    newsletterForm.addEventListener("submit", async function(e){
+
+        e.preventDefault();
+
+        const data = new FormData(newsletterForm);
+
+        try{
+
+            const response = await fetch(newsletterForm.action,{
+
+                method:"POST",
+
+                body:data,
+
+                headers:{
+                    "Accept":"application/json"
+                }
+
+            });
+
+            const lang = localStorage.getItem("lang") || "en";
+
+            const success = {
+
+                en:"✓ You're in. Welcome to Groteska.",
+
+                es:"✓ Ya formas parte del Club.",
+
+                it:"✓ Benvenuto nel Club."
+
+            };
+
+            const error = {
+
+                en:"Something went wrong. Please try again.",
+
+                es:"Ha ocurrido un error. Inténtalo de nuevo.",
+
+                it:"Si è verificato un errore. Riprova."
+
+            };
+
+            if(response.ok){
+
+                newsletterMessage.textContent = success[lang];
+
+                newsletterMessage.className = "success";
+
+                newsletterForm.reset();
+
+            }else{
+
+                newsletterMessage.textContent = error[lang];
+
+                newsletterMessage.className = "error";
+
+            }
+
+        }catch{
+
+            const lang = localStorage.getItem("lang") || "en";
+
+            const error = {
+
+                en:"Something went wrong. Please try again.",
+
+                es:"Ha ocurrido un error. Inténtalo de nuevo.",
+
+                it:"Si è verificato un errore. Riprova."
+
+            };
+
+            newsletterMessage.textContent = error[lang];
+
+            newsletterMessage.className = "error";
+
+        }
+
+    });
+
+}
+
+/* ==========================================
+CONTACT
+========================================== */
+
+const contactForm = document.getElementById("contact-form");
+
+const contactMessage = document.getElementById("contact-message");
+
+if(contactForm){
+
+    contactForm.addEventListener("submit", async function(e){
+
+        e.preventDefault();
+
+        const data = new FormData(contactForm);
+
+        const lang = localStorage.getItem("lang") || "en";
+
+        const success = {
+
+            en:"✓ Message sent. We'll be in touch soon.",
+
+            es:"✓ Mensaje enviado. Te responderemos pronto.",
+
+            it:"✓ Messaggio inviato. Ti risponderemo al più presto."
+
+        };
+
+        const error = {
+
+            en:"Something went wrong. Please try again.",
+
+            es:"Ha ocurrido un error. Inténtalo de nuevo.",
+
+            it:"Si è verificato un errore. Riprova."
+
+        };
+
+        try{
+
+            const response = await fetch(contactForm.action,{
+
+                method:"POST",
+
+                body:data,
+
+                headers:{
+                    Accept:"application/json"
+                }
+
+            });
+
+            if(response.ok){
+
+                contactMessage.textContent = success[lang];
+
+                contactMessage.className = "success";
+
+                contactForm.reset();
+
+            }else{
+
+                contactMessage.textContent = error[lang];
+
+                contactMessage.className = "error";
+
+            }
+
+        }catch{
+
+            contactMessage.textContent = error[lang];
+
+            contactMessage.className = "error";
+
+        }
+
+    });
+
+}

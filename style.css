@@ -278,6 +278,19 @@ EDITORIAL GRID
 
 }
 
+@media (max-width: 768px) {
+
+    .grid-xs {
+
+        display: grid;
+        grid-template-columns: repeat(1, minmax(0, 1fr));
+        gap: clamp(24px, 2vw, 48px);
+        justify-content: center !important;
+
+    }
+
+}
+
 
 .span-24 {
 
@@ -1298,6 +1311,8 @@ NEWSLETTER
 
     max-width: 520px;
 
+    font-size: 1rem;
+
 }
 
 .newsletter form {
@@ -1369,6 +1384,117 @@ NEWSLETTER
 .newsletter button:hover::after {
 
     width: 100%;
+
+}
+
+
+#newsletter-message{
+
+    margin-top:1.5rem;
+
+    font-size:.75rem;
+
+    letter-spacing:.08em;
+
+    text-transform:uppercase;
+
+    opacity:.8;
+
+    min-height:20px;
+
+    transition:.3s;
+
+}
+
+#newsletter-message.success{
+
+    color:#111;
+
+}
+
+#newsletter-message.error{
+
+    color:#a80000;
+
+}
+
+
+/*==================================================
+CONTACT FORM
+==================================================*/
+#contact form{
+
+    margin-top: 70px;
+    display: flex;
+    gap: 28px;
+    flex-direction: column;
+    align-content: center;
+    flex-wrap: wrap;
+
+}
+
+@media (max-width: 768px) {
+    #contact form {
+        width: 100%;
+        padding: 40px 50px 100px 40px;
+    }
+
+        #contact input, #contact button {
+        width: 100%;
+    }
+}
+
+#contact input,
+#contact textarea{
+
+    max-width: 480px;
+    padding: 22px 0;
+    border: none;
+    border-bottom: 1px solid var(--line);
+    background: transparent;
+    font-size: 1rem;
+    outline: none;
+
+
+}
+
+#contact textarea{
+
+    min-height:140px;
+
+}
+
+#contact button{
+
+    align-self:flex-start;
+
+}
+
+#contact-message{
+
+    margin-top:1.5rem;
+
+    min-height:20px;
+
+    font-size:.75rem;
+
+    text-transform:uppercase;
+
+    letter-spacing:.08em;
+
+    opacity:.8;
+
+}
+
+#contact-message.success{
+
+    color:#111;
+
+}
+
+#contact-message.error{
+
+    color:#a80000;
 
 }
 
@@ -1913,6 +2039,8 @@ MOBILE
         width: 100%;
         padding-top: 40px;
         padding-bottom: 40px;
+        padding-right: 1px !important;
+    padding-left: 1px !important;
     }
 
     .editorial-quote p {
