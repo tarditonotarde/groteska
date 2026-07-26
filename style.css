@@ -484,7 +484,7 @@ display:flex;
 align-items:center;
 justify-content:center;
 
-font-size: clamp(0.8rem, 0.8rem, 0.8rem);
+font-size: clamp(0.6rem, 0.8rem, 0.8rem);
 letter-spacing:.18em;
 font-family:var(--font-mono);
 text-transform:uppercase;
@@ -2042,6 +2042,9 @@ bottom:20px;
 width:48px;
 
 height:48px;
+
+font-size: 0.6rem;
+
 
 }
 
