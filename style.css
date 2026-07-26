@@ -247,7 +247,7 @@ p {
 
     font-family: var(--font-mono);
 
-    font-size: clamp(1rem, 1rem, 0.75rem);
+    font-size: clamp(0.8rem, 0.8rem, 0.8rem);
 
     letter-spacing: .18em;
 
@@ -372,6 +372,80 @@ SPACING
     margin-top: var(--space-7);
 
 }
+
+
+
+/* ==========================================
+BACK TO TOP
+========================================== */
+
+#backToTop{
+
+position:fixed;
+
+right:30px;
+
+bottom:30px;
+
+width:56px;
+
+height:56px;
+
+border:1px solid #111;
+
+background: rgba(255, 255, 255, 0.5);
+
+backdrop-filter: blur(20px);
+    
+color:#111;
+
+border-radius:50%;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+font-size: clamp(0.8rem, 0.8rem, 0.8rem);
+letter-spacing:.18em;
+font-family:var(--font-mono);
+text-transform:uppercase;
+
+
+cursor:pointer;
+
+opacity:0;
+
+visibility:hidden;
+
+transform:translateY(20px);
+
+transition:
+opacity .35s ease,
+transform .35s ease,
+background .3s ease;
+
+z-index:999;
+
+}
+
+#backToTop.show{
+
+opacity:1;
+
+visibility:visible;
+
+transform:translateY(0);
+
+}
+
+#backToTop:hover{
+
+background:#111;
+
+color:#fff;
+
+}
+
 
 /*==================================================
 HEADER
@@ -1855,5 +1929,17 @@ MOBILE MENU
         line-height: 1.1;
 
     }
+
+    #backToTop{
+
+right:20px;
+
+bottom:20px;
+
+width:48px;
+
+height:48px;
+
+}
 
 }
