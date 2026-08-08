@@ -91,6 +91,20 @@ ul {
 
 }
 
+/* Por defecto (móviles): se desactiva el enlace y el cursor de clic */
+.desktop-link {
+  pointer-events: none;
+  cursor: default;
+}
+
+/* En pantallas grandes (Desktop): se activa nuevamente el enlace */
+@media (min-width: 768px) {
+  .desktop-link {
+    pointer-events: auto;
+    cursor: pointer;
+  }
+}
+
 /*==================================================
 ROOT
 ==================================================*/
@@ -1102,7 +1116,7 @@ EDITORIAL QUOTES
 
     font-family: var(--font-serif);
 
-    font-size: clamp(3rem, 8vw, 6rem);
+    font-size: clamp(3rem, 8vw, 4rem);
 
     line-height: .9;
 
