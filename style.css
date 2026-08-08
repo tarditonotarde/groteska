@@ -966,14 +966,14 @@ EDITORIAL LOOK
 
     justify-content: space-between;
 
-    align-items: center;
+    align-items: flex-start;
 
 }
 
 .look-title {
 
     font-family: var(--font-serif);
-    font-size: clamp(2rem, 2rem, 2rem);
+    font-size: 1.5rem;
     max-width: 50%;
 
 }
