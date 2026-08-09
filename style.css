@@ -917,6 +917,12 @@ padding: 100px 0px 40px;
         color: inherit !important; 
         -webkit-text-fill-color: currentColor !important; 
     }
+
+    .shop-category{ 
+        color: inherit !important; 
+        -webkit-text-fill-color: currentColor !important; 
+        text-decoration: none !important;
+    }
 }
 
 
