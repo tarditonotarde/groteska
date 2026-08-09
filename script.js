@@ -65,15 +65,15 @@ class Groteska {
 
         }
 
-            if (this.menuClose) {
+        if (this.menuClose) {
 
-    this.menuClose.addEventListener("click", () => {
+            this.menuClose.addEventListener("click", () => {
 
-        this.closeMenu();
+                this.closeMenu();
 
-    });
+            });
 
-}
+        }
 
         document.querySelectorAll(".menu-content a").forEach(link => {
 
@@ -394,24 +394,24 @@ const newsletterForm = document.getElementById("newsletter-form");
 
 const newsletterMessage = document.getElementById("newsletter-message");
 
-if(newsletterForm){
+if (newsletterForm) {
 
-    newsletterForm.addEventListener("submit", async function(e){
+    newsletterForm.addEventListener("submit", async function (e) {
 
         e.preventDefault();
 
         const data = new FormData(newsletterForm);
 
-        try{
+        try {
 
-            const response = await fetch(newsletterForm.action,{
+            const response = await fetch(newsletterForm.action, {
 
-                method:"POST",
+                method: "POST",
 
-                body:data,
+                body: data,
 
-                headers:{
-                    "Accept":"application/json"
+                headers: {
+                    "Accept": "application/json"
                 }
 
             });
@@ -420,25 +420,25 @@ if(newsletterForm){
 
             const success = {
 
-                en:"✓ You're in. Welcome to Groteska.",
+                en: "✓ You're in. Welcome to Groteska.",
 
-                es:"✓ Ya formas parte del Club.",
+                es: "✓ Ya formas parte del Club.",
 
-                it:"✓ Benvenuto nel Club."
+                it: "✓ Benvenuto nel Club."
 
             };
 
             const error = {
 
-                en:"Something went wrong. Please try again.",
+                en: "Something went wrong. Please try again.",
 
-                es:"Ha ocurrido un error. Inténtalo de nuevo.",
+                es: "Ha ocurrido un error. Inténtalo de nuevo.",
 
-                it:"Si è verificato un errore. Riprova."
+                it: "Si è verificato un errore. Riprova."
 
             };
 
-            if(response.ok){
+            if (response.ok) {
 
                 newsletterMessage.textContent = success[lang];
 
@@ -446,7 +446,7 @@ if(newsletterForm){
 
                 newsletterForm.reset();
 
-            }else{
+            } else {
 
                 newsletterMessage.textContent = error[lang];
 
@@ -454,17 +454,17 @@ if(newsletterForm){
 
             }
 
-        }catch{
+        } catch {
 
             const lang = localStorage.getItem("lang") || "en";
 
             const error = {
 
-                en:"Something went wrong. Please try again.",
+                en: "Something went wrong. Please try again.",
 
-                es:"Ha ocurrido un error. Inténtalo de nuevo.",
+                es: "Ha ocurrido un error. Inténtalo de nuevo.",
 
-                it:"Si è verificato un errore. Riprova."
+                it: "Si è verificato un errore. Riprova."
 
             };
 
@@ -486,9 +486,9 @@ const contactForm = document.getElementById("contact-form");
 
 const contactMessage = document.getElementById("contact-message");
 
-if(contactForm){
+if (contactForm) {
 
-    contactForm.addEventListener("submit", async function(e){
+    contactForm.addEventListener("submit", async function (e) {
 
         e.preventDefault();
 
@@ -498,39 +498,39 @@ if(contactForm){
 
         const success = {
 
-            en:"✓ Message sent. We'll be in touch soon.",
+            en: "✓ Message sent. We'll be in touch soon.",
 
-            es:"✓ Mensaje enviado. Te responderemos pronto.",
+            es: "✓ Mensaje enviado. Te responderemos pronto.",
 
-            it:"✓ Messaggio inviato. Ti risponderemo al più presto."
+            it: "✓ Messaggio inviato. Ti risponderemo al più presto."
 
         };
 
         const error = {
 
-            en:"Something went wrong. Please try again.",
+            en: "Something went wrong. Please try again.",
 
-            es:"Ha ocurrido un error. Inténtalo de nuevo.",
+            es: "Ha ocurrido un error. Inténtalo de nuevo.",
 
-            it:"Si è verificato un errore. Riprova."
+            it: "Si è verificato un errore. Riprova."
 
         };
 
-        try{
+        try {
 
-            const response = await fetch(contactForm.action,{
+            const response = await fetch(contactForm.action, {
 
-                method:"POST",
+                method: "POST",
 
-                body:data,
+                body: data,
 
-                headers:{
-                    Accept:"application/json"
+                headers: {
+                    Accept: "application/json"
                 }
 
             });
 
-            if(response.ok){
+            if (response.ok) {
 
                 contactMessage.textContent = success[lang];
 
@@ -538,7 +538,7 @@ if(contactForm){
 
                 contactForm.reset();
 
-            }else{
+            } else {
 
                 contactMessage.textContent = error[lang];
 
@@ -546,7 +546,7 @@ if(contactForm){
 
             }
 
-        }catch{
+        } catch {
 
             contactMessage.textContent = error[lang];
 
@@ -562,27 +562,27 @@ if(contactForm){
 SHOP CATEGORIES FILTER
 ========================================== */
 
-        /* Groteska shop category filters */
-        document.addEventListener('DOMContentLoaded', () => {
-            const shop = document.querySelector('#shop.collection');
-            if (!shop) return;
-            const buttons = shop.querySelectorAll('.shop-category');
-            const products = shop.querySelectorAll('article[data-category]');
-            const quotes = shop.querySelectorAll('[data-category].editorial-quote');
-            buttons.forEach(button => {
-                button.addEventListener('click', () => {
-                    const filter = button.dataset.filter;
-                    buttons.forEach(item => {
-                        const active = item === button;
-                        item.classList.toggle('active', active);
-                        item.setAttribute('aria-pressed', active ? 'true' : 'false');
-                    });
-                    products.forEach(product => {
-                        product.hidden = filter !== 'all' && product.dataset.category !== filter;
-                    });
-                    quotes.forEach(quote => {
-                        quote.hidden = filter !== 'all' && quote.dataset.category !== filter;
-                    });
-                });
+/* Groteska shop category filters */
+document.addEventListener('DOMContentLoaded', () => {
+    const shop = document.querySelector('#shop.collection');
+    if (!shop) return;
+    const buttons = shop.querySelectorAll('.shop-category');
+    const products = shop.querySelectorAll('article[data-category]');
+    const quotes = shop.querySelectorAll('[data-category].editorial-quote');
+    buttons.forEach(button => {
+        button.addEventListener('click', () => {
+            const filter = button.dataset.filter;
+            buttons.forEach(item => {
+                const active = item === button;
+                item.classList.toggle('active', active);
+                item.setAttribute('aria-pressed', active ? 'true' : 'false');
+            });
+            products.forEach(product => {
+                product.hidden = filter !== 'all' && product.dataset.category !== filter;
+            });
+            quotes.forEach(quote => {
+                quote.hidden = filter !== 'all' && quote.dataset.category !== filter;
             });
         });
+    });
+});
