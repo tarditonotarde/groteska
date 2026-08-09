@@ -122,6 +122,16 @@ a:active {
     color: inherit;
 }
 
+body {
+    -webkit-text-size-adjust: 100%;
+}
+
+a[href^="tel"],
+a[href^="mailto"] {
+    color: inherit;
+    -webkit-text-fill-color: inherit;
+}
+
 /*==================================================
 ROOT
 ==================================================*/
