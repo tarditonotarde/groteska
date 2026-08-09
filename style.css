@@ -919,9 +919,11 @@ padding: 100px 0px 40px;
     }
 
     .shop-category{ 
-        color: inherit !important; 
-        -webkit-text-fill-color: currentColor !important; 
-        text-decoration: none !important;
+    color: #000 !important;
+    -webkit-text-fill-color: #000 !important;
+    text-decoration: none !important;
+    outline: none !important;
+    -webkit-tap-highlight-color: transparent !important;
     }
 }
 
