@@ -142,6 +142,19 @@ a:focus {
     -webkit-text-fill-color: inherit !important;
 }
 
+/* CATEGORY NAV — iPhone / Safari */
+.category-nav a,
+.category-nav a:link,
+.category-nav a:visited,
+.category-nav a:hover,
+.category-nav a:active,
+.category-nav a:focus {
+    color: #000 !important;
+    -webkit-text-fill-color: #000 !important;
+    text-decoration: none !important;
+    -webkit-tap-highlight-color: transparent;
+}
+
 /*==================================================
 ROOT
 ==================================================*/
