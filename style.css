@@ -1200,7 +1200,7 @@ IMAGE SIZES
 
 .look-md {
 
-    grid-column: span 8;
+    grid-column: span 7;
 
 }
 
@@ -1988,6 +1988,12 @@ TABLET
 
     }
 
+.hero-image img {
+
+        min-width: 100%;
+
+    }
+
     .hero {
 
         gap: 60px;
@@ -2288,6 +2294,9 @@ MOBILE
     font-size: .5rem;
 
     padding-top: 10px;
+
+    text-align: left;
+
 
 }
 
