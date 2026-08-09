@@ -105,6 +105,23 @@ ul {
   }
 }
 
+/* Links — keep Groteska typography/colors on iPhone */
+a {
+    color: inherit;
+    -webkit-text-fill-color: currentColor;
+    text-decoration: none;
+}
+
+a:visited {
+    color: inherit;
+}
+
+a:hover,
+a:focus,
+a:active {
+    color: inherit;
+}
+
 /*==================================================
 ROOT
 ==================================================*/
@@ -1107,6 +1124,8 @@ EDITORIAL LOOK
     width: 100%;
 
 }
+
+
 
 /*==================================================
 IMAGE SIZES
