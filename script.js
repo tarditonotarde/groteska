@@ -557,3 +557,32 @@ if(contactForm){
     });
 
 }
+
+/* ==========================================
+SHOP CATEGORIES FILTER
+========================================== */
+
+        /* Groteska shop category filters */
+        document.addEventListener('DOMContentLoaded', () => {
+            const shop = document.querySelector('#shop.collection');
+            if (!shop) return;
+            const buttons = shop.querySelectorAll('.shop-category');
+            const products = shop.querySelectorAll('article[data-category]');
+            const quotes = shop.querySelectorAll('[data-category].editorial-quote');
+            buttons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const filter = button.dataset.filter;
+                    buttons.forEach(item => {
+                        const active = item === button;
+                        item.classList.toggle('active', active);
+                        item.setAttribute('aria-pressed', active ? 'true' : 'false');
+                    });
+                    products.forEach(product => {
+                        product.hidden = filter !== 'all' && product.dataset.category !== filter;
+                    });
+                    quotes.forEach(quote => {
+                        quote.hidden = filter !== 'all' && quote.dataset.category !== filter;
+                    });
+                });
+            });
+        });

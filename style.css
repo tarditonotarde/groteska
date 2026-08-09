@@ -552,6 +552,27 @@ color:#fff;
 
 }
 
+/* Back to Top — pulsación suave */
+#backToTop {
+    animation: backToTopPulse 2s ease-in-out infinite;
+    transform-origin: center;
+}
+
+@keyframes backToTopPulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.08);
+    }
+}
+
+/* Al pasar el ratón, se detiene la pulsación */
+#backToTop:hover {
+    animation-play-state: paused;
+    transform: scale(1.12);
+}
 
 /*==================================================
 HEADER
@@ -792,6 +813,65 @@ body.menu-open {
     cursor: pointer;
 
 }
+
+
+
+/*==================================================
+SHOP CATEGORY FILTERS
+==================================================*/
+
+
+.editorial-quote-shop {
+
+    display: flex;
+    padding-top: 100px;
+    justify-content: center;
+
+
+}
+
+/* Groteska shop category filters */
+.shop-categories {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem 1.2rem;
+    align-items: center;
+padding: 100px 0px 40px;
+    margin: 0;
+    position: relative;
+    z-index: 5;
+    justify-content: center;
+}
+
+.shop-category {
+    appearance: none;
+    border: 0;
+    background: none;
+    padding: 0;
+    margin: 0;
+    font: inherit;
+    font-size: 1rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-family: var(--font-mono);
+    cursor: pointer;
+    opacity: 0.45;
+    transition: opacity 180ms ease, transform 180ms ease;
+    padding: 0px 10px;
+    border: 1px solid #111;
+    border-radius: 20px;
+}
+.shop-category:hover, .shop-category:focus-visible, .shop-category.active { opacity: 1; }
+.shop-category:hover { transform: translateY(-2px); }
+.shop-category:focus-visible { outline: 1px solid currentColor; outline-offset: 5px; }
+.collection article[data-category][hidden] { display: none !important; }
+.collection > .editorial-quote[hidden] { display: none !important; }
+@media (max-width: 700px) {
+    .shop-categories { gap: 0.7rem 1rem; padding-bottom: 2rem; }
+}
+
+
 
 /*==================================================
 HERO
@@ -1773,7 +1853,7 @@ img.loaded {
 
     font-family: var(--font-mono);
 
-    font-size: clamp(0.8rem, 1rem, 1rem);
+    font-size: 1rem;
 
     letter-spacing: .5em;
 

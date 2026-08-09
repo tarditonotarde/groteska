@@ -36,6 +36,8 @@
 
     <link rel="stylesheet" href="style.css">
 
+
+
 </head>
 
 <button id="backToTop" aria-label="Back to top">
@@ -83,7 +85,7 @@
 
             </a>
 
-            <a href="#footer" data-en="CONTACT" data-es="CONTACTO" data-it="CONTATTI">
+            <a href="#contact" data-en="CONTACT" data-es="CONTACTO" data-it="CONTATTI">
 
                 CONTACT
 
@@ -151,7 +153,7 @@
 
             </a>
 
-            <a href="#footer" data-en="CONTACT" data-es="CONTACTO" data-it="CONTATTI">
+            <a href="#contact" data-en="CONTACT" data-es="CONTACTO" data-it="CONTATTI">
 
                 CONTACT
 
@@ -288,12 +290,33 @@
 
         </section>
 
+        <section id="shop" class="editorial-quote-shop reveal">
+
+            <h1 data-en="Shop" data-es="Shop" data-it="Shop">
+
+                Shop
+
+            </h1>
+
+        </section>
 
         <section id="shop" class="grid collection">
 
+            <nav class="shop-categories" aria-label="Shop categories">
+                <button type="button" class="shop-category active" data-filter="all" aria-pressed="true">ALL</button>
+                <button type="button" class="shop-category" data-filter="tutto-passa" aria-pressed="false">Tutto
+                    Passa</button>
+                <button type="button" class="shop-category" data-filter="italia" aria-pressed="false">L'Italia?</button>
+                <button type="button" class="shop-category" data-filter="catalunya"
+                    aria-pressed="false">Catalunya?</button>
+                <button type="button" class="shop-category" data-filter="pop-polite" aria-pressed="false">Pop &amp;
+                    Polite</button>
+                <button type="button" class="shop-category" data-filter="cinema" aria-pressed="false">Cinema</button>
+            </nav>
 
 
-            <section class="editorial-quote right reveal">
+
+            <section class="editorial-quote right reveal" data-category="italia">
 
                 <p data-en="L'Italia?<br>Non potresti capire." data-es="L'Italia?<br>Non potresti capire."
                     data-it="L'Italia?<br>Non potresti capire.">
@@ -307,7 +330,7 @@
             </section>
 
 
-            <article class="look look-xl look-offset-left reveal">
+            <article class="look look-xl look-offset-left reveal" data-category="italia">
 
                 <a href="https://www.latostadora.com/web/la-italia-non-potresti-capire/19935311?shop_trk"
                     target="_blank" rel="noopener noreferrer" class="desktop-link">
@@ -337,7 +360,7 @@
             </article>
 
 
-            <article class="look look-sm reveal">
+            <article class="look look-sm reveal" data-category="italia">
 
                 <a href="https://www.latostadora.com/web/la-italia-non-potresti-capire/19935295?shop_trk"
                     target="_blank" rel="noopener noreferrer" class="desktop-link">
@@ -372,7 +395,7 @@
             </article>
 
 
-            <article class="look look-sm look-offset-left reveal">
+            <article class="look look-sm look-offset-left reveal" data-category="italia">
 
                 <a href="https://www.latostadora.com/web/la-italia-non-potresti-capire/19935294?shop_trk"
                     target="_blank" rel="noopener noreferrer" class="desktop-link">
@@ -408,7 +431,7 @@
 
 
 
-            <div class="editorial-quote small reveal">
+            <div class="editorial-quote small reveal" data-category="tutto-passa">
 
                 <p data-en="Tutto<br>Passa." data-es="Tutto<br>Passa." data-it="Tutto<br>Passa.">
 
@@ -421,7 +444,7 @@
             </div>
 
 
-            <article class="look look-lg reveal">
+            <article class="look look-lg reveal" data-category="tutto-passa">
 
 
                 <a href="https://www.latostadora.com/web/tutto-passa/19961478?shop_trk" target="_blank"
@@ -459,7 +482,7 @@
             </article>
 
 
-            <article class="look look-sm look-offset-left reveal">
+            <article class="look look-sm look-offset-left reveal" data-category="tutto-passa">
 
                 <a href="https://www.latostadora.com/web/tutto-passa/19961496?shop_trk" target="_blank"
                     rel="noopener noreferrer" class="desktop-link">
@@ -491,7 +514,7 @@
 
             </article>
 
-            <article class="look look-sm look-offset-left reveal">
+            <article class="look look-sm look-offset-left reveal" data-category="tutto-passa">
 
                 <a href="https://www.latostadora.com/web/tutto-passa/19961474?shop_trk" target="_blank"
                     rel="noopener noreferrer" class="desktop-link">
@@ -525,7 +548,7 @@
 
 
 
-            <section class="editorial-quote left reveal">
+            <section class="editorial-quote left reveal" data-category="catalunya">
 
                 <p data-en="Catalunya?<br>No ho entendries." data-es="Catalunya?<br>No ho entendries."
                     data-it="Catalunya?<br>No ho entendries.">
@@ -539,7 +562,7 @@
             </section>
 
 
-            <article class="look look-sm reveal">
+            <article class="look look-sm reveal" data-category="catalunya">
 
 
                 <a href="https://www.latostadora.com/web/catalunya-no-ho-entendries/19935293?shop_trk" target="_blank"
@@ -576,7 +599,7 @@
             </article>
 
 
-            <article class="look look-xl look-offset-right reveal">
+            <article class="look look-xl look-offset-right reveal" data-category="catalunya">
 
 
                 <a href="https://www.latostadora.com/web/catalunya-no-ho-entendries/19935307?shop_trk" target="_blank"
@@ -614,7 +637,7 @@
 
             </article>
 
-            <section class="editorial-quote right reveal">
+            <section class="editorial-quote right reveal" data-category="pop-polite">
 
                 <p data-en="Pop<br>& Polite" data-es="Pop<br>& Polite" data-it="Pop<br>& Polite">
 
@@ -627,7 +650,7 @@
             </section>
 
 
-            <article class="look look-sm reveal">
+            <article class="look look-sm reveal" data-category="pop-polite">
 
                 <a href="https://www.latostadora.com/web/live-laugh-love-kim-jong-un-glitch/19935288?shop_trk"
                     target="_blank" rel="noopener noreferrer" class="desktop-link">
@@ -667,10 +690,10 @@
             </article>
 
 
-            <article class="look look-sm reveal">
+            <article class="look look-sm reveal" data-category="pop-polite">
 
-                <a href="https://www.latostadora.com/web/mr-boombastic/19962952?shop_trk"
-                    target="_blank" rel="noopener noreferrer" class="desktop-link">
+                <a href="https://www.latostadora.com/web/mr-boombastic/19962952?shop_trk" target="_blank"
+                    rel="noopener noreferrer" class="desktop-link">
 
 
                     <figure>
@@ -687,16 +710,14 @@
 
                 <div class="look-info">
 
-                    <h2 class="look-title" data-en="Mr. Boombastic" data-es="Mr. Boombastic"
-                        data-it="Mr. Boombastic">
+                    <h2 class="look-title" data-en="Mr. Boombastic" data-es="Mr. Boombastic" data-it="Mr. Boombastic">
 
                         Mr. Boombastic
 
                     </h2>
 
-                    <a href="https://www.latostadora.com/web/mr-boombastic/19962951?shop_trk"
-                        target="_blank" rel="noopener noreferrer" class="look-link" data-en="SHOP →" data-es="SHOP →"
-                        data-it="SHOP →">
+                    <a href="https://www.latostadora.com/web/mr-boombastic/19962951?shop_trk" target="_blank"
+                        rel="noopener noreferrer" class="look-link" data-en="SHOP →" data-es="SHOP →" data-it="SHOP →">
 
                         SHOP →
 
@@ -707,7 +728,7 @@
             </article>
 
 
-            <article class="look look-sm reveal">
+            <article class="look look-sm reveal" data-category="pop-polite">
 
                 <a href="https://www.latostadora.com/web/knife-girl/19962509?shop_trk" target="_blank"
                     rel="noopener noreferrer" class="desktop-link">
@@ -726,14 +747,14 @@
 
                 <div class="look-info">
 
-                    <h2 class="look-title" data-en="Britney <br> Knife Dance"
-                        data-es="Britney <br> Knife Dance" data-it="Britney <br> Knife Dance">
+                    <h2 class="look-title" data-en="Britney <br> Knife Dance" data-es="Britney <br> Knife Dance"
+                        data-it="Britney <br> Knife Dance">
 
                         Britney <br> Knife Dance
 
                     </h2>
 
-                <a href="https://www.latostadora.com/web/knife-girl/19962509?shop_trk" target="_blank"
+                    <a href="https://www.latostadora.com/web/knife-girl/19962509?shop_trk" target="_blank"
                         target="_blank" rel="noopener noreferrer" class="look-link" data-en="SHOP →" data-es="SHOP →"
                         data-it="SHOP →">
 
@@ -745,10 +766,10 @@
 
             </article>
 
-                        <article class="look look-sm reveal">
+            <article class="look look-sm reveal" data-category="pop-polite">
 
-                    <a href="https://www.latostadora.com/web/make-censorship-great-again/19936748?shop_trk"
-                    target="_blank" rel="noopener noreferrer" class="desktop-link">
+                <a href="https://www.latostadora.com/web/make-censorship-great-again/19936748?shop_trk" target="_blank"
+                    rel="noopener noreferrer" class="desktop-link">
 
 
                     <figure>
@@ -842,11 +863,11 @@
         </section>
 
 
-        <section id="manifesto" class="manifesto reveal">
+        <section class="manifesto reveal">
 
-            
 
-            <div class="manifesto-title">
+
+            <div  id="manifesto" class="manifesto-title">
 
                 <span class="small" data-en="MANIFESTO" data-es="MANIFIESTO" data-it="MANIFESTO">
 
@@ -854,11 +875,11 @@
 
                 </span>
 
-                
+
 
             </div>
 
-            
+
             <div class="manifesto-copy">
 
                 <h2 data-en="We don't design for everyone." data-es="No diseñamos para todo el mundo."
@@ -1235,10 +1256,12 @@
 
                 </h2>
 
-                <p data-en="mediterranean pop culture · since 2026" data-es="cultura pop mediterránea · desde 2026"
-                    data-it="cultura pop mediterranea · dal 2026">
+                <p href="https://www.latostadora.com/shop/groteska/?shop_trk" target="_blank" rel="noopener noreferrer"
+                    data-en="Mediterranean pop culture x Claudia Tardito <br>since 2026 · Gracià, Barcelona, Spain."
+                    data-es="Cultura pop mediterránea x Claudia Tardito <br>desde 2026 · Gracià, Barcelona, España."
+                    data-it="Cultura pop mediterranea x Claudia Tardito <br>dal 2026 · Gracià, Barcellona, Spagna.">
 
-                    mediterranean pop culture · since 2026
+                    Mediterranean pop culture x Claudia Tardito <br>since 2026 · Gracià, Barcelona, Spain.
 
                 </p>
 
@@ -1301,6 +1324,7 @@
 
 
     <script src="script.js"></script>
+
 
 </body>
 
