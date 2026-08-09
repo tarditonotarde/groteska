@@ -142,18 +142,7 @@ a:focus {
     -webkit-text-fill-color: inherit !important;
 }
 
-/* CATEGORY NAV — iPhone / Safari */
-.category-nav a,
-.category-nav a:link,
-.category-nav a:visited,
-.category-nav a:hover,
-.category-nav a:active,
-.category-nav a:focus {
-    color: #000 !important;
-    -webkit-text-fill-color: #000 !important;
-    text-decoration: none !important;
-    -webkit-tap-highlight-color: transparent;
-}
+
 
 /*==================================================
 ROOT
@@ -896,30 +885,41 @@ padding: 100px 0px 40px;
 
 .shop-category {
     appearance: none;
-    border: 0;
-    background: none;
-    padding: 0;
+    -webkit-appearance: none;
+    border: 1px solid #111;
+    background: transparent;
+    padding: 0 10px;
     margin: 0;
+
     font: inherit;
     font-size: 1rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     font-family: var(--font-mono);
+
+    color: #111 !important;
+    -webkit-text-fill-color: #111 !important;
+
     cursor: pointer;
     opacity: 0.45;
+
     transition: opacity 180ms ease, transform 180ms ease;
-    padding: 0px 10px;
-    border: 1px solid #111;
+
     border-radius: 20px;
+    -webkit-tap-highlight-color: transparent;
 }
-.shop-category:hover, .shop-category:focus-visible, .shop-category.active { opacity: 1; }
-.shop-category:hover { transform: translateY(-2px); }
-.shop-category:focus-visible { outline: 1px solid currentColor; outline-offset: 5px; }
-.collection article[data-category][hidden] { display: none !important; }
-.collection > .editorial-quote[hidden] { display: none !important; }
-@media (max-width: 700px) {
-    .shop-categories { gap: 0.7rem 1rem; padding-bottom: 2rem; }
+
+.shop-category:hover,
+.shop-category:focus,
+.shop-category:focus-visible,
+.shop-category:active,
+.shop-category.active {
+    color: #111 !important;
+    -webkit-text-fill-color: #111 !important;
+    opacity: 1;
 }
+
+
 
 
 
