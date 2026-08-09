@@ -2279,6 +2279,18 @@ MOBILE
         text-align: center;
     }
 
+    .footer-logo p {
+
+    font-family: var(--font-mono);
+
+    letter-spacing: .2em;
+
+    font-size: .5rem;
+
+    padding-top: 10px;
+
+}
+
     /* ---------- IMAGES ---------- */
 
     img {
