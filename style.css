@@ -105,28 +105,41 @@ ul {
   }
 }
 
-/* Links — keep Groteska typography/colors on iPhone */
-a {
-    color: inherit;
-    -webkit-text-fill-color: currentColor;
-    text-decoration: none;
-}
+/* =========================================================
+   iOS / Safari — prevent automatic blue links
+   ========================================================= */
 
-a:visited {
-    color: inherit;
-}
-
+a,
+a:link,
+a:visited,
 a:hover,
-a:focus,
-a:active {
-    color: inherit;
+a:active,
+a:focus {
+    color: inherit !important;
+    -webkit-text-fill-color: currentColor !important;
+    text-decoration: none !important;
 }
 
+/* Product links */
+.look a,
+.look a:link,
+.look a:visited,
+.look a:hover,
+.look a:active,
+.look a:focus {
+    color: inherit !important;
+    -webkit-text-fill-color: inherit !important;
+}
 
-a[href^="tel"],
-a[href^="mailto"] {
-    color: inherit;
-    -webkit-text-fill-color: inherit;
+/* Footer links */
+.footer a,
+.footer a:link,
+.footer a:visited,
+.footer a:hover,
+.footer a:active,
+.footer a:focus {
+    color: inherit !important;
+    -webkit-text-fill-color: inherit !important;
 }
 
 /*==================================================
