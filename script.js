@@ -8,15 +8,10 @@ class Groteska {
     constructor() {
 
         this.cache();
-
         this.events();
-
         this.reveal();
-
         this.images();
-
         this.cursor();
-
         this.progress();
 
     }
@@ -24,98 +19,225 @@ class Groteska {
     cache() {
 
         this.headerElement = document.querySelector(".header");
-
         this.cursorElement = document.querySelector(".cursor");
-
         this.menu = document.querySelector(".menu-overlay");
-
         this.menuButton = document.querySelector(".menu");
-
-        this.progressBar = document.querySelector(".progress");
-
         this.menuClose = document.querySelector(".menu-close");
+        this.progressBar = document.querySelector(".progress");
+        this.backToTop = document.getElementById("backToTop");
 
         this.previous = 0;
+        this.scrollTicking = false;
+        this.cursorTicking = false;
+        this.cursorX = 0;
+        this.cursorY = 0;
+        this.lastFocusedElement = null;
+        this.reduceMotion = window.matchMedia(
+            "(prefers-reduced-motion: reduce)"
+        ).matches;
 
     }
 
     events() {
 
-        window.addEventListener("scroll", () => {
+        window.addEventListener(
+            "scroll",
+            () => this.requestScrollUpdate(),
+            { passive: true }
+        );
 
-            this.scrollHeader();
+        if (this.cursorElement) {
 
-            this.scrollProgress();
+            window.addEventListener(
+                "mousemove",
+                (e) => this.requestCursorUpdate(e),
+                { passive: true }
+            );
 
-        });
-
-        window.addEventListener("mousemove", (e) => {
-
-            this.moveCursor(e);
-
-        });
+        }
 
         if (this.menuButton && this.menu) {
 
-            this.menuButton.addEventListener("click", () => {
-
-                this.toggleMenu();
-
-            });
+            this.menuButton.addEventListener(
+                "click",
+                () => this.toggleMenu()
+            );
 
         }
 
         if (this.menuClose) {
 
-            this.menuClose.addEventListener("click", () => {
-
-                this.closeMenu();
-
-            });
+            this.menuClose.addEventListener(
+                "click",
+                () => this.closeMenu(true)
+            );
 
         }
 
         document.querySelectorAll(".menu-content a").forEach(link => {
 
             link.addEventListener("click", () => {
-
-                this.closeMenu();
-
+                this.closeMenu(true);
             });
 
         });
 
         document.addEventListener("keydown", (e) => {
 
+            if (!this.menu || !this.menu.classList.contains("active")) {
+                return;
+            }
+
             if (e.key === "Escape") {
 
-                this.closeMenu();
+                e.preventDefault();
+                this.closeMenu(true);
+                return;
 
             }
 
+            if (e.key === "Tab") {
+                this.trapFocus(e);
+            }
+
         });
+
+        if (this.backToTop) {
+
+            this.backToTop.addEventListener("click", () => {
+
+                window.scrollTo({
+                    top: 0,
+                    behavior: this.reduceMotion ? "auto" : "smooth"
+                });
+
+            });
+
+        }
 
     }
 
     toggleMenu() {
 
-        this.menu.classList.toggle("active");
+        if (!this.menu) return;
 
-        document.body.classList.toggle("menu-open");
+        if (this.menu.classList.contains("active")) {
+            this.closeMenu(true);
+        } else {
+            this.openMenu();
+        }
 
     }
 
-    closeMenu() {
+    openMenu() {
+
+        if (!this.menu) return;
+
+        this.lastFocusedElement = document.activeElement;
+
+        this.menu.classList.add("active");
+        document.body.classList.add("menu-open");
+
+        if (this.menuButton) {
+
+            this.menuButton.setAttribute(
+                "aria-expanded",
+                "true"
+            );
+
+        }
+
+        this.menu.setAttribute("aria-hidden", "false");
+
+        if (this.menuClose) {
+
+            requestAnimationFrame(() => {
+                this.menuClose.focus();
+            });
+
+        }
+
+    }
+
+    closeMenu(returnFocus = false) {
 
         if (!this.menu) return;
 
         this.menu.classList.remove("active");
-
         document.body.classList.remove("menu-open");
+
+        if (this.menuButton) {
+
+            this.menuButton.setAttribute(
+                "aria-expanded",
+                "false"
+            );
+
+        }
+
+        this.menu.setAttribute("aria-hidden", "true");
+
+        if (
+            returnFocus &&
+            this.lastFocusedElement &&
+            typeof this.lastFocusedElement.focus === "function"
+        ) {
+
+            requestAnimationFrame(() => {
+                this.lastFocusedElement.focus();
+            });
+
+        }
 
     }
 
+    trapFocus(e) {
 
+        if (!this.menu) return;
+
+        const focusable = this.menu.querySelectorAll(
+            'a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        );
+
+        if (!focusable.length) return;
+
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+
+        if (e.shiftKey && document.activeElement === first) {
+
+            e.preventDefault();
+            last.focus();
+
+        } else if (
+            !e.shiftKey &&
+            document.activeElement === last
+        ) {
+
+            e.preventDefault();
+            first.focus();
+
+        }
+
+    }
+
+    requestScrollUpdate() {
+
+        if (this.scrollTicking) return;
+
+        this.scrollTicking = true;
+
+        requestAnimationFrame(() => {
+
+            this.scrollHeader();
+            this.scrollProgress();
+            this.updateBackToTop();
+
+            this.scrollTicking = false;
+
+        });
+
+    }
 
     scrollHeader() {
 
@@ -123,17 +245,33 @@ class Groteska {
 
         const current = window.scrollY;
 
-        if (current > this.previous && current > 120) {
+        if (
+            current > this.previous &&
+            current > 120
+        ) {
 
-            this.headerElement.style.transform = "translateY(-100%)";
+            this.headerElement.style.transform =
+                "translateY(-100%)";
 
         } else {
 
-            this.headerElement.style.transform = "translateY(0)";
+            this.headerElement.style.transform =
+                "translateY(0)";
 
         }
 
         this.previous = current;
+
+    }
+
+    updateBackToTop() {
+
+        if (!this.backToTop) return;
+
+        this.backToTop.classList.toggle(
+            "show",
+            window.scrollY > 500
+        );
 
     }
 
@@ -143,25 +281,43 @@ class Groteska {
 
         if (!items.length) return;
 
-        const observer = new IntersectionObserver((entries) => {
+        if (
+            this.reduceMotion ||
+            !("IntersectionObserver" in window)
+        ) {
 
-            entries.forEach(entry => {
-
-                if (entry.isIntersecting) {
-
-                    entry.target.classList.add("show");
-
-                }
-
+            items.forEach(item => {
+                item.classList.add("show");
             });
 
-        }, {
+            return;
 
-            threshold: 0.15
+        }
 
+        const observer = new IntersectionObserver(
+            (entries, obs) => {
+
+                entries.forEach(entry => {
+
+                    if (entry.isIntersecting) {
+
+                        entry.target.classList.add("show");
+
+                        obs.unobserve(entry.target);
+
+                    }
+
+                });
+
+            },
+            {
+                threshold: 0.15
+            }
+        );
+
+        items.forEach(item => {
+            observer.observe(item);
         });
-
-        items.forEach(item => observer.observe(item));
 
     }
 
@@ -169,17 +325,26 @@ class Groteska {
 
         document.querySelectorAll("img").forEach(img => {
 
-            if (img.complete) {
+            if (
+                img.complete &&
+                img.naturalWidth > 0
+            ) {
 
                 img.classList.add("loaded");
 
             } else {
 
-                img.addEventListener("load", () => {
+                img.addEventListener(
+                    "load",
+                    () => img.classList.add("loaded"),
+                    { once: true }
+                );
 
-                    img.classList.add("loaded");
-
-                });
+                img.addEventListener(
+                    "error",
+                    () => img.classList.add("loaded"),
+                    { once: true }
+                );
 
             }
 
@@ -189,39 +354,66 @@ class Groteska {
 
     cursor() {
 
-        if (!this.cursorElement) return;
+        if (
+            !this.cursorElement ||
+            window.matchMedia("(pointer: coarse)").matches
+        ) {
+            return;
+        }
 
-        document.querySelectorAll(".look img, .button, .look-link").forEach(item => {
+        document
+            .querySelectorAll(".look img, .button, .look-link")
+            .forEach(item => {
 
-            item.addEventListener("mouseenter", () => {
+                item.addEventListener(
+                    "mouseenter",
+                    () => {
+                        this.cursorElement.classList.add("active");
+                    }
+                );
 
-                this.cursorElement.classList.add("active");
+                item.addEventListener(
+                    "mouseleave",
+                    () => {
+                        this.cursorElement.classList.remove("active");
+                    }
+                );
 
             });
 
-            item.addEventListener("mouseleave", () => {
+    }
 
-                this.cursorElement.classList.remove("active");
+    requestCursorUpdate(e) {
 
-            });
+        this.cursorX = e.clientX;
+        this.cursorY = e.clientY;
+
+        if (this.cursorTicking) return;
+
+        this.cursorTicking = true;
+
+        requestAnimationFrame(() => {
+
+            this.cursorElement.style.left =
+                this.cursorX + "px";
+
+            this.cursorElement.style.top =
+                this.cursorY + "px";
+
+            this.cursorTicking = false;
 
         });
 
     }
 
     moveCursor(e) {
-
-        if (!this.cursorElement) return;
-
-        this.cursorElement.style.left = e.clientX + "px";
-
-        this.cursorElement.style.top = e.clientY + "px";
-
+        this.requestCursorUpdate(e);
     }
 
     progress() {
 
         this.scrollProgress();
+        this.updateBackToTop();
 
     }
 
@@ -231,60 +423,31 @@ class Groteska {
 
         const doc = document.documentElement;
 
-        const total = doc.scrollHeight - doc.clientHeight;
+        const total =
+            doc.scrollHeight - doc.clientHeight;
 
-        const percent = total > 0 ? (window.scrollY / total) * 100 : 0;
+        const percent =
+            total > 0
+                ? (window.scrollY / total) * 100
+                : 0;
 
-        this.progressBar.style.width = percent + "%";
+        this.progressBar.style.width =
+            percent + "%";
 
     }
 
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-
     new Groteska();
-
 });
 
-/* ==========================================
-BACK TO TOP
-========================================== */
 
-const backToTop = document.getElementById("backToTop");
-
-window.addEventListener("scroll", () => {
-
-    if (window.scrollY > 500) {
-
-        backToTop.classList.add("show");
-
-    } else {
-
-        backToTop.classList.remove("show");
-
-    }
-
-});
-
-backToTop.addEventListener("click", () => {
-
-    window.scrollTo({
-
-        top: 0,
-
-        behavior: "smooth"
-
-    });
-
-});
-
-/* ==========================================
-LANGUAGE SWITCHER
-========================================== */
+/* ==========================================================
+   LANGUAGE SWITCHER
+========================================================== */
 
 const buttons = document.querySelectorAll(".lang");
-
 const language = localStorage.getItem("lang") || "en";
 
 setLanguage(language);
@@ -292,9 +455,7 @@ setLanguage(language);
 buttons.forEach(button => {
 
     button.addEventListener("click", () => {
-
         setLanguage(button.dataset.lang);
-
     });
 
 });
@@ -314,109 +475,108 @@ function setLanguage(lang) {
 
     });
 
-    /* ---------- TEXT ---------- */
-
     document.querySelectorAll("[data-en]").forEach(el => {
 
-        const value = el.getAttribute(`data-${lang}`);
+        const value =
+            el.getAttribute(`data-${lang}`);
 
         if (value !== null) {
-
             el.innerHTML = value;
-
         }
 
     });
 
-    /* ---------- PLACEHOLDER ---------- */
+    document
+        .querySelectorAll("[data-placeholder-en]")
+        .forEach(el => {
 
-    document.querySelectorAll("[data-placeholder-en]").forEach(el => {
+            const value =
+                el.getAttribute(
+                    `data-placeholder-${lang}`
+                );
 
-        const value = el.getAttribute(`data-placeholder-${lang}`);
+            if (value !== null) {
+                el.placeholder = value;
+            }
 
-        if (value !== null) {
+        });
 
-            el.placeholder = value;
+    document
+        .querySelectorAll("[data-alt-en]")
+        .forEach(el => {
 
-        }
+            const value =
+                el.getAttribute(
+                    `data-alt-${lang}`
+                );
 
-    });
+            if (value !== null) {
+                el.alt = value;
+            }
 
-    /* ---------- ALT ---------- */
+        });
 
-    document.querySelectorAll("[data-alt-en]").forEach(el => {
+    document
+        .querySelectorAll("[data-title-en]")
+        .forEach(el => {
 
-        const value = el.getAttribute(`data-alt-${lang}`);
+            const value =
+                el.getAttribute(
+                    `data-title-${lang}`
+                );
 
-        if (value !== null) {
+            if (value !== null) {
+                el.title = value;
+            }
 
-            el.alt = value;
+        });
 
-        }
+    document
+        .querySelectorAll("[data-aria-en]")
+        .forEach(el => {
 
-    });
+            const value =
+                el.getAttribute(
+                    `data-aria-${lang}`
+                );
 
-    /* ---------- TITLE ---------- */
+            if (value !== null) {
 
-    document.querySelectorAll("[data-title-en]").forEach(el => {
+                el.setAttribute(
+                    "aria-label",
+                    value
+                );
 
-        const value = el.getAttribute(`data-title-${lang}`);
+            }
 
-        if (value !== null) {
-
-            el.title = value;
-
-        }
-
-    });
-
-    /* ---------- ARIA LABEL ---------- */
-
-    document.querySelectorAll("[data-aria-en]").forEach(el => {
-
-        const value = el.getAttribute(`data-aria-${lang}`);
-
-        if (value !== null) {
-
-            el.setAttribute("aria-label", value);
-
-        }
-
-    });
+        });
 
 }
 
-/* ==========================================
-NEWSLETTER
-========================================== */
 
-const newsletterForm = document.getElementById("newsletter-form");
+/* ==========================================================
+   NEWSLETTER
+========================================================== */
 
-const newsletterMessage = document.getElementById("newsletter-message");
+const newsletterForm =
+    document.getElementById("newsletter-form");
+
+const newsletterMessage =
+    document.getElementById("newsletter-message");
 
 if (newsletterForm) {
 
-    newsletterForm.addEventListener("submit", async function (e) {
+    newsletterForm.addEventListener(
+        "submit",
+        async function (e) {
 
-        e.preventDefault();
+            e.preventDefault();
 
-        const data = new FormData(newsletterForm);
+            const data =
+                new FormData(newsletterForm);
 
-        try {
-
-            const response = await fetch(newsletterForm.action, {
-
-                method: "POST",
-
-                body: data,
-
-                headers: {
-                    "Accept": "application/json"
-                }
-
-            });
-
-            const lang = localStorage.getItem("lang") || "en";
+            const lang =
+                localStorage.getItem("lang") || "en";
 
             const success = {
 
@@ -438,25 +598,90 @@ if (newsletterForm) {
 
             };
 
-            if (response.ok) {
+            try {
 
-                newsletterMessage.textContent = success[lang];
+                const response =
+                    await fetch(
+                        newsletterForm.action,
+                        {
+                            method: "POST",
+                            body: data,
+                            headers: {
+                                "Accept":
+                                    "application/json"
+                            }
+                        }
+                    );
 
-                newsletterMessage.className = "success";
+                if (response.ok) {
 
-                newsletterForm.reset();
+                    newsletterMessage.textContent =
+                        success[lang];
 
-            } else {
+                    newsletterMessage.className =
+                        "success";
 
-                newsletterMessage.textContent = error[lang];
+                    newsletterForm.reset();
 
-                newsletterMessage.className = "error";
+                } else {
+
+                    newsletterMessage.textContent =
+                        error[lang];
+
+                    newsletterMessage.className =
+                        "error";
+
+                }
+
+            } catch {
+
+                newsletterMessage.textContent =
+                    error[lang];
+
+                newsletterMessage.className =
+                    "error";
 
             }
 
-        } catch {
+        }
+    );
 
-            const lang = localStorage.getItem("lang") || "en";
+}
+
+
+/* ==========================================================
+   CONTACT
+========================================================== */
+
+const contactForm =
+    document.getElementById("contact-form");
+
+const contactMessage =
+    document.getElementById("contact-message");
+
+if (contactForm) {
+
+    contactForm.addEventListener(
+        "submit",
+        async function (e) {
+
+            e.preventDefault();
+
+            const data =
+                new FormData(contactForm);
+
+            const lang =
+                localStorage.getItem("lang") || "en";
+
+            const success = {
+
+                en: "✓ Message sent. We'll be in touch soon.",
+
+                es: "✓ Mensaje enviado. Te responderemos pronto.",
+
+                it: "✓ Messaggio inviato. Ti risponderemo al più presto."
+
+            };
 
             const error = {
 
@@ -468,121 +693,131 @@ if (newsletterForm) {
 
             };
 
-            newsletterMessage.textContent = error[lang];
+            try {
 
-            newsletterMessage.className = "error";
+                const response =
+                    await fetch(
+                        contactForm.action,
+                        {
+                            method: "POST",
+                            body: data,
+                            headers: {
+                                Accept:
+                                    "application/json"
+                            }
+                        }
+                    );
 
-        }
+                if (response.ok) {
 
-    });
+                    contactMessage.textContent =
+                        success[lang];
 
-}
+                    contactMessage.className =
+                        "success";
 
-/* ==========================================
-CONTACT
-========================================== */
+                    contactForm.reset();
 
-const contactForm = document.getElementById("contact-form");
+                } else {
 
-const contactMessage = document.getElementById("contact-message");
+                    contactMessage.textContent =
+                        error[lang];
 
-if (contactForm) {
+                    contactMessage.className =
+                        "error";
 
-    contactForm.addEventListener("submit", async function (e) {
-
-        e.preventDefault();
-
-        const data = new FormData(contactForm);
-
-        const lang = localStorage.getItem("lang") || "en";
-
-        const success = {
-
-            en: "✓ Message sent. We'll be in touch soon.",
-
-            es: "✓ Mensaje enviado. Te responderemos pronto.",
-
-            it: "✓ Messaggio inviato. Ti risponderemo al più presto."
-
-        };
-
-        const error = {
-
-            en: "Something went wrong. Please try again.",
-
-            es: "Ha ocurrido un error. Inténtalo de nuevo.",
-
-            it: "Si è verificato un errore. Riprova."
-
-        };
-
-        try {
-
-            const response = await fetch(contactForm.action, {
-
-                method: "POST",
-
-                body: data,
-
-                headers: {
-                    Accept: "application/json"
                 }
 
-            });
+            } catch {
 
-            if (response.ok) {
+                contactMessage.textContent =
+                    error[lang];
 
-                contactMessage.textContent = success[lang];
-
-                contactMessage.className = "success";
-
-                contactForm.reset();
-
-            } else {
-
-                contactMessage.textContent = error[lang];
-
-                contactMessage.className = "error";
+                contactMessage.className =
+                    "error";
 
             }
 
-        } catch {
-
-            contactMessage.textContent = error[lang];
-
-            contactMessage.className = "error";
-
         }
-
-    });
+    );
 
 }
 
-/* ==========================================
-SHOP CATEGORIES FILTER
-========================================== */
 
-/* Groteska shop category filters */
-document.addEventListener('DOMContentLoaded', () => {
-    const shop = document.querySelector('#shop.collection');
-    if (!shop) return;
-    const buttons = shop.querySelectorAll('.shop-category');
-    const products = shop.querySelectorAll('article[data-category]');
-    const quotes = shop.querySelectorAll('[data-category].editorial-quote');
-    buttons.forEach(button => {
-        button.addEventListener('click', () => {
-            const filter = button.dataset.filter;
-            buttons.forEach(item => {
-                const active = item === button;
-                item.classList.toggle('active', active);
-                item.setAttribute('aria-pressed', active ? 'true' : 'false');
-            });
-            products.forEach(product => {
-                product.hidden = filter !== 'all' && product.dataset.category !== filter;
-            });
-            quotes.forEach(quote => {
-                quote.hidden = filter !== 'all' && quote.dataset.category !== filter;
-            });
+/* ==========================================================
+   SHOP CATEGORIES FILTER
+========================================================== */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    () => {
+
+        const shop =
+            document.querySelector("#shop.collection");
+
+        if (!shop) return;
+
+        const buttons =
+            shop.querySelectorAll(".shop-category");
+
+        const products =
+            shop.querySelectorAll(
+                "article[data-category]"
+            );
+
+        const quotes =
+            shop.querySelectorAll(
+                "[data-category].editorial-quote"
+            );
+
+        buttons.forEach(button => {
+
+            button.addEventListener(
+                "click",
+                () => {
+
+                    const filter =
+                        button.dataset.filter;
+
+                    buttons.forEach(item => {
+
+                        const active =
+                            item === button;
+
+                        item.classList.toggle(
+                            "active",
+                            active
+                        );
+
+                        item.setAttribute(
+                            "aria-pressed",
+                            active
+                                ? "true"
+                                : "false"
+                        );
+
+                    });
+
+                    products.forEach(product => {
+
+                        product.hidden =
+                            filter !== "all" &&
+                            product.dataset.category !== filter;
+
+                    });
+
+                    quotes.forEach(quote => {
+
+                        quote.hidden =
+                            filter !== "all" &&
+                            quote.dataset.category !== filter;
+
+                    });
+
+                }
+            );
+
         });
-    });
-});
+
+    }
+);

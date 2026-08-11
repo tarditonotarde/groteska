@@ -70,18 +70,15 @@
 
 </head>
 
-
-
 <body>
 
-
     <button id="backToTop" aria-label="Back to top">
-
-    ▲ <br>TOP
-
-</button>
-
-
+    
+        ▲ <br>TOP
+    
+    </button>
+    
+    
     <div class="progress"></div>
 
     <a href="#content" class="skip-link">Skip to content</a>
@@ -141,7 +138,7 @@
 
         </div>
 
-        <button class="menu" aria-label="Open Menu">
+        <button type="button" class="menu" aria-label="Open Menu" aria-controls="mobile-menu" aria-expanded="false">
 
             ✚
 
@@ -150,10 +147,10 @@
     </header>
 
 
-    <div class="menu-overlay">
+    <div id="mobile-menu" class="menu-overlay" aria-hidden="true">
 
 
-        <button class="menu-close" aria-label="Close menu">
+        <button type="button" class="menu-close" aria-label="Close menu">
 
             ✚
 
@@ -303,13 +300,13 @@
 
             <section class="editorial-quote left reveal">
 
-                <h1 data-en="Not everything has to make sense. It just has to feel iconic."
+                <h2 data-en="Not everything has to make sense. It just has to feel iconic."
                     data-es="No todo tiene que tener sentido. Solo tiene que sentirse icónico."
                     data-it="Non tutto deve avere un senso. Deve solo sentirsi iconico.">
 
                     Not everything has to make sense. It just has to feel iconic.
 
-                </h1>
+                </h2>
 
             </section>
 
@@ -317,21 +314,21 @@
                 data-es="Nuestras camisetas heavyweight (Classic, Boxy y Oversized) están confeccionadas con algodón 100% natural e impresión digital premium. Cada pieza se produce bajo demanda junto a nuestro socio de confianza, LaTostadora, reduciendo el desperdicio y garantizando una producción ética y una calidad excepcional."
                 data-it="Le nostre T-shirt heavyweight (Classic, Boxy e Oversized) sono realizzate in 100% cotone naturale con stampa digitale premium. Ogni capo viene prodotto su richiesta dal nostro partner di fiducia, LaTostadora, riducendo gli sprechi e garantendo una produzione etica e una qualità eccezionale.">
 
-                Our heavyweight T-shirts (Classic, Boxy & Oversized) are made from 100% natural cotton with premium
-                digital printing. Every piece is produced on demand by our trusted partner, LaTostadora, reducing waste
-                while ensuring ethical production and exceptional quality.
+                Our heavyweight T-shirts are made from 100% natural cotton and premium digital printing. Classic, Boxy
+                and Oversized fits let each graphic find its shape. Every piece is made to order by our trusted production
+                partner, LaTostadora, reducing overproduction without compromising the Groteska look.
 
             </p>
 
         </section>
 
-        <section id="shop" class="editorial-quote-shop reveal">
+        <section class="editorial-quote-shop reveal">
 
-            <h1 data-en="Shop" data-es="Shop" data-it="Shop">
+            <h2 data-en="Shop" data-es="Shop" data-it="Shop">
 
                 Shop
 
-            </h1>
+            </h2>
 
         </section>
 
@@ -1258,7 +1255,7 @@
 
             </form>
 
-            <p id="newsletter-message"></p>
+            <p id="newsletter-message" class="form-message" role="status" aria-live="polite"></p>
 
         </section>
 
@@ -1500,7 +1497,7 @@
 
             </form>
 
-            <p id="contact-message"></p>
+            <p id="contact-message" class="form-message" role="status" aria-live="polite"></p>
 
         </section>
 

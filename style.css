@@ -91,7 +91,7 @@ ul {
 
 }
 
-/* Por defecto (móviles): se desactiva el enlace y el cursor de clic */
+/* Por defecto (mÃ³viles): se desactiva el enlace y el cursor de clic */
 .desktop-link {
     pointer-events: none;
     cursor: default;
@@ -106,7 +106,7 @@ ul {
 }
 
 /* =========================================================
-   iOS / Safari — prevent automatic blue links
+   iOS / Safari â€” prevent automatic blue links
    ========================================================= */
 
 a,
@@ -118,6 +118,36 @@ a:focus {
     color: inherit !important;
     -webkit-text-fill-color: currentColor !important;
     text-decoration: none !important;
+}
+
+
+/* =========================================================
+   ACCESSIBILITY â€” KEYBOARD FOCUS
+========================================================= */
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+
+    outline: 1px solid currentColor;
+    outline-offset: 5px;
+
+}
+
+.shop-category:focus-visible {
+
+    outline: 1px solid currentColor !important;
+    outline-offset: 5px;
+
+}
+
+#contact input:focus-visible,
+#contact textarea:focus-visible {
+
+    border-color: #111;
+
 }
 
 /* Product links */
@@ -448,7 +478,7 @@ LANGUAGES
     align-items: center;
     gap: 8px;
 
-    font-family: var(--font-sans);
+    font-family: var(--font-body);
     font-size: .8rem;
     letter-spacing: .15em;
     text-transform: uppercase;
@@ -590,7 +620,7 @@ BACK TO TOP
 
 }
 
-/* Back to Top — pulsación suave */
+/* Back to Top â€” pulsaciÃ³n suave */
 #backToTop {
     animation: backToTopPulse 2s ease-in-out infinite;
     transform-origin: center;
@@ -608,7 +638,7 @@ BACK TO TOP
     }
 }
 
-/* Al pasar el ratón, se detiene la pulsación */
+/* Al pasar el ratÃ³n, se detiene la pulsaciÃ³n */
 #backToTop:hover {
     animation-play-state: paused;
     transform: scale(1.12);
@@ -815,7 +845,7 @@ body.menu-open {
 
 }
 
-/* BOTÓN CERRAR */
+/* BOTÃ“N CERRAR */
 
 .menu-close {
 
@@ -938,7 +968,7 @@ SHOP CATEGORY FILTERS
         color: #000 !important;
         -webkit-text-fill-color: #000 !important;
         text-decoration: none !important;
-        outline: none !important;
+        outline: none;
         -webkit-tap-highlight-color: transparent !important;
     }
 }
@@ -2377,6 +2407,27 @@ MOBILE MENU
         font-size: 0.6rem;
 
 
+    }
+
+}
+
+/* =========================================================
+   ACCESSIBILITY â€” REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    html {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
     }
 
 }
