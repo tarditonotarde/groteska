@@ -1,23 +1,20 @@
 /* ==========================================================
    GROTESKA
-   script.js
+   script.js — audited & optimized
 ========================================================== */
 
 class Groteska {
 
     constructor() {
-
         this.cache();
         this.events();
         this.reveal();
         this.images();
         this.cursor();
         this.progress();
-
     }
 
     cache() {
-
         this.headerElement = document.querySelector(".header");
         this.cursorElement = document.querySelector(".cursor");
         this.menu = document.querySelector(".menu-overlay");
@@ -27,18 +24,48 @@ class Groteska {
         this.backToTop = document.getElementById("backToTop");
 
         this.previous = 0;
+
         this.scrollTicking = false;
         this.cursorTicking = false;
+
         this.cursorX = 0;
         this.cursorY = 0;
-        this.lastFocusedElement = null;
-        this.reduceMotion = window.matchMedia(
-            "(prefers-reduced-motion: reduce)"
-        ).matches;
 
+        this.lastFocusedElement = null;
+
+        this.reduceMotionQuery = window.matchMedia(
+            "(prefers-reduced-motion: reduce)"
+        );
+
+        this.reduceMotion = this.reduceMotionQuery.matches;
     }
 
     events() {
+
+        /* ---------------------------------------------
+           Reduced motion
+        --------------------------------------------- */
+
+        if (this.reduceMotionQuery.addEventListener) {
+
+            this.reduceMotionQuery.addEventListener(
+                "change",
+                (event) => {
+
+                    this.reduceMotion = event.matches;
+
+                    if (this.reduceMotion) {
+                        this.showAllReveals();
+                    }
+
+                }
+            );
+
+        }
+
+        /* ---------------------------------------------
+           Scroll
+        --------------------------------------------- */
 
         window.addEventListener(
             "scroll",
@@ -46,15 +73,23 @@ class Groteska {
             { passive: true }
         );
 
+        /* ---------------------------------------------
+           Custom cursor
+        --------------------------------------------- */
+
         if (this.cursorElement) {
 
             window.addEventListener(
                 "mousemove",
-                (e) => this.requestCursorUpdate(e),
+                (event) => this.requestCursorUpdate(event),
                 { passive: true }
             );
 
         }
+
+        /* ---------------------------------------------
+           Mobile menu
+        --------------------------------------------- */
 
         if (this.menuButton && this.menu) {
 
@@ -74,57 +109,93 @@ class Groteska {
 
         }
 
-        document.querySelectorAll(".menu-content a").forEach(link => {
+        document
+            .querySelectorAll(".menu-content a")
+            .forEach(link => {
 
-            link.addEventListener("click", () => {
-                this.closeMenu(true);
+                link.addEventListener(
+                    "click",
+                    () => this.closeMenu(true)
+                );
+
             });
 
-        });
+        document.addEventListener(
+            "keydown",
+            (event) => {
 
-        document.addEventListener("keydown", (e) => {
+                if (
+                    !this.menu ||
+                    !this.menu.classList.contains("active")
+                ) {
+                    return;
+                }
 
-            if (!this.menu || !this.menu.classList.contains("active")) {
-                return;
+                /* ESC closes menu */
+
+                if (event.key === "Escape") {
+
+                    event.preventDefault();
+
+                    this.closeMenu(true);
+
+                    return;
+
+                }
+
+                /* Keep keyboard focus inside menu */
+
+                if (event.key === "Tab") {
+
+                    this.trapFocus(event);
+
+                }
+
             }
+        );
 
-            if (e.key === "Escape") {
-
-                e.preventDefault();
-                this.closeMenu(true);
-                return;
-
-            }
-
-            if (e.key === "Tab") {
-                this.trapFocus(e);
-            }
-
-        });
+        /* ---------------------------------------------
+           Back to top
+        --------------------------------------------- */
 
         if (this.backToTop) {
 
-            this.backToTop.addEventListener("click", () => {
+            this.backToTop.addEventListener(
+                "click",
+                () => {
 
-                window.scrollTo({
-                    top: 0,
-                    behavior: this.reduceMotion ? "auto" : "smooth"
-                });
+                    window.scrollTo({
+                        top: 0,
+                        behavior: this.reduceMotion
+                            ? "auto"
+                            : "smooth"
+                    });
 
-            });
+                }
+            );
 
         }
 
     }
 
+    /* ======================================================
+       MOBILE MENU
+    ====================================================== */
+
     toggleMenu() {
 
         if (!this.menu) return;
 
-        if (this.menu.classList.contains("active")) {
+        if (
+            this.menu.classList.contains("active")
+        ) {
+
             this.closeMenu(true);
+
         } else {
+
             this.openMenu();
+
         }
 
     }
@@ -133,9 +204,11 @@ class Groteska {
 
         if (!this.menu) return;
 
-        this.lastFocusedElement = document.activeElement;
+        this.lastFocusedElement =
+            document.activeElement;
 
         this.menu.classList.add("active");
+
         document.body.classList.add("menu-open");
 
         if (this.menuButton) {
@@ -147,12 +220,19 @@ class Groteska {
 
         }
 
-        this.menu.setAttribute("aria-hidden", "false");
+        this.menu.setAttribute(
+            "aria-hidden",
+            "false"
+        );
+
+        /* Move focus into menu */
 
         if (this.menuClose) {
 
             requestAnimationFrame(() => {
+
                 this.menuClose.focus();
+
             });
 
         }
@@ -164,6 +244,7 @@ class Groteska {
         if (!this.menu) return;
 
         this.menu.classList.remove("active");
+
         document.body.classList.remove("menu-open");
 
         if (this.menuButton) {
@@ -175,7 +256,12 @@ class Groteska {
 
         }
 
-        this.menu.setAttribute("aria-hidden", "true");
+        this.menu.setAttribute(
+            "aria-hidden",
+            "true"
+        );
+
+        /* Return focus to the element that opened menu */
 
         if (
             returnFocus &&
@@ -184,42 +270,62 @@ class Groteska {
         ) {
 
             requestAnimationFrame(() => {
+
                 this.lastFocusedElement.focus();
+
             });
 
         }
 
     }
 
-    trapFocus(e) {
+    trapFocus(event) {
 
         if (!this.menu) return;
 
-        const focusable = this.menu.querySelectorAll(
-            'a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])'
-        );
+        const focusable =
+            this.menu.querySelectorAll(
+                'a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])'
+            );
 
         if (!focusable.length) return;
 
         const first = focusable[0];
-        const last = focusable[focusable.length - 1];
 
-        if (e.shiftKey && document.activeElement === first) {
+        const last =
+            focusable[focusable.length - 1];
 
-            e.preventDefault();
+        /* Shift + Tab from first → last */
+
+        if (
+            event.shiftKey &&
+            document.activeElement === first
+        ) {
+
+            event.preventDefault();
+
             last.focus();
 
-        } else if (
-            !e.shiftKey &&
+        }
+
+        /* Tab from last → first */
+
+        else if (
+            !event.shiftKey &&
             document.activeElement === last
         ) {
 
-            e.preventDefault();
+            event.preventDefault();
+
             first.focus();
 
         }
 
     }
+
+    /* ======================================================
+       SCROLL
+    ====================================================== */
 
     requestScrollUpdate() {
 
@@ -230,7 +336,9 @@ class Groteska {
         requestAnimationFrame(() => {
 
             this.scrollHeader();
+
             this.scrollProgress();
+
             this.updateBackToTop();
 
             this.scrollTicking = false;
@@ -243,7 +351,8 @@ class Groteska {
 
         if (!this.headerElement) return;
 
-        const current = window.scrollY;
+        const current =
+            window.scrollY;
 
         if (
             current > this.previous &&
@@ -275,107 +384,177 @@ class Groteska {
 
     }
 
+    /* ======================================================
+       REVEAL ANIMATIONS
+    ====================================================== */
+
     reveal() {
 
-        const items = document.querySelectorAll(".reveal");
+        const items =
+            document.querySelectorAll(".reveal");
 
         if (!items.length) return;
+
+        /* Show immediately if reduced motion */
 
         if (
             this.reduceMotion ||
             !("IntersectionObserver" in window)
         ) {
 
-            items.forEach(item => {
-                item.classList.add("show");
-            });
+            this.showAllReveals();
 
             return;
 
         }
 
-        const observer = new IntersectionObserver(
-            (entries, obs) => {
+        const observer =
+            new IntersectionObserver(
+                (entries, obs) => {
 
-                entries.forEach(entry => {
+                    entries.forEach(entry => {
 
-                    if (entry.isIntersecting) {
+                        if (
+                            entry.isIntersecting
+                        ) {
 
-                        entry.target.classList.add("show");
+                            entry.target.classList.add(
+                                "show"
+                            );
 
-                        obs.unobserve(entry.target);
+                            obs.unobserve(
+                                entry.target
+                            );
 
-                    }
+                        }
 
-                });
+                    });
 
-            },
-            {
-                threshold: 0.15
-            }
-        );
+                },
+                {
+                    threshold: 0.15
+                }
+            );
 
         items.forEach(item => {
+
             observer.observe(item);
+
         });
 
     }
+
+    showAllReveals() {
+
+        document
+            .querySelectorAll(".reveal")
+            .forEach(item => {
+
+                item.classList.add("show");
+
+            });
+
+    }
+
+    /* ======================================================
+       IMAGES
+    ====================================================== */
 
     images() {
 
-        document.querySelectorAll("img").forEach(img => {
+        document
+            .querySelectorAll("img")
+            .forEach(img => {
 
-            if (
-                img.complete &&
-                img.naturalWidth > 0
-            ) {
+                if (
+                    img.complete &&
+                    img.naturalWidth > 0
+                ) {
 
-                img.classList.add("loaded");
+                    img.classList.add(
+                        "loaded"
+                    );
 
-            } else {
+                } else {
 
-                img.addEventListener(
-                    "load",
-                    () => img.classList.add("loaded"),
-                    { once: true }
-                );
+                    img.addEventListener(
+                        "load",
+                        () => {
 
-                img.addEventListener(
-                    "error",
-                    () => img.classList.add("loaded"),
-                    { once: true }
-                );
+                            img.classList.add(
+                                "loaded"
+                            );
 
-            }
+                        },
+                        { once: true }
+                    );
 
-        });
+                    /*
+                     * If an image fails, reveal it anyway
+                     * so the page does not keep an invisible
+                     * image forever.
+                     */
+
+                    img.addEventListener(
+                        "error",
+                        () => {
+
+                            img.classList.add(
+                                "loaded"
+                            );
+
+                        },
+                        { once: true }
+                    );
+
+                }
+
+            });
 
     }
+
+    /* ======================================================
+       CUSTOM CURSOR
+    ====================================================== */
 
     cursor() {
 
         if (
             !this.cursorElement ||
-            window.matchMedia("(pointer: coarse)").matches
+            window.matchMedia(
+                "(pointer: coarse)"
+            ).matches
         ) {
+
             return;
+
         }
 
         document
-            .querySelectorAll(".look img, .button, .look-link")
+            .querySelectorAll(
+                ".look img, .button, .look-link"
+            )
             .forEach(item => {
 
                 item.addEventListener(
                     "mouseenter",
                     () => {
-                        this.cursorElement.classList.add("active");
+
+                        this.cursorElement.classList.add(
+                            "active"
+                        );
+
                     }
                 );
 
                 item.addEventListener(
                     "mouseleave",
                     () => {
-                        this.cursorElement.classList.remove("active");
+
+                        this.cursorElement.classList.remove(
+                            "active"
+                        );
+
                     }
                 );
 
@@ -383,10 +562,13 @@ class Groteska {
 
     }
 
-    requestCursorUpdate(e) {
+    requestCursorUpdate(event) {
 
-        this.cursorX = e.clientX;
-        this.cursorY = e.clientY;
+        this.cursorX =
+            event.clientX;
+
+        this.cursorY =
+            event.clientY;
 
         if (this.cursorTicking) return;
 
@@ -394,11 +576,15 @@ class Groteska {
 
         requestAnimationFrame(() => {
 
-            this.cursorElement.style.left =
-                this.cursorX + "px";
+            if (this.cursorElement) {
 
-            this.cursorElement.style.top =
-                this.cursorY + "px";
+                this.cursorElement.style.left =
+                    this.cursorX + "px";
+
+                this.cursorElement.style.top =
+                    this.cursorY + "px";
+
+            }
 
             this.cursorTicking = false;
 
@@ -406,13 +592,22 @@ class Groteska {
 
     }
 
-    moveCursor(e) {
-        this.requestCursorUpdate(e);
+    /* Kept for compatibility */
+
+    moveCursor(event) {
+
+        this.requestCursorUpdate(event);
+
     }
+
+    /* ======================================================
+       PROGRESS BAR
+    ====================================================== */
 
     progress() {
 
         this.scrollProgress();
+
         this.updateBackToTop();
 
     }
@@ -421,14 +616,19 @@ class Groteska {
 
         if (!this.progressBar) return;
 
-        const doc = document.documentElement;
+        const doc =
+            document.documentElement;
 
         const total =
-            doc.scrollHeight - doc.clientHeight;
+            doc.scrollHeight -
+            doc.clientHeight;
 
         const percent =
             total > 0
-                ? (window.scrollY / total) * 100
+                ? (
+                    window.scrollY /
+                    total
+                ) * 100
                 : 0;
 
         this.progressBar.style.width =
@@ -438,35 +638,60 @@ class Groteska {
 
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-    new Groteska();
-});
+
+/* ==========================================================
+   INITIALIZE GROTESKA
+========================================================== */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    () => {
+
+        new Groteska();
+
+    }
+);
 
 
 /* ==========================================================
    LANGUAGE SWITCHER
 ========================================================== */
 
-const buttons = document.querySelectorAll(".lang");
-const language = localStorage.getItem("lang") || "en";
+const languageButtons =
+    document.querySelectorAll(".lang");
 
-setLanguage(language);
+const savedLanguage =
+    localStorage.getItem("lang") || "en";
 
-buttons.forEach(button => {
+setLanguage(savedLanguage);
 
-    button.addEventListener("click", () => {
-        setLanguage(button.dataset.lang);
-    });
+languageButtons.forEach(button => {
+
+    button.addEventListener(
+        "click",
+        () => {
+
+            setLanguage(
+                button.dataset.lang
+            );
+
+        }
+    );
 
 });
 
+
 function setLanguage(lang) {
 
-    localStorage.setItem("lang", lang);
+    localStorage.setItem(
+        "lang",
+        lang
+    );
 
-    document.documentElement.lang = lang;
+    document.documentElement.lang =
+        lang;
 
-    buttons.forEach(button => {
+    languageButtons.forEach(button => {
 
         button.classList.toggle(
             "active",
@@ -475,74 +700,118 @@ function setLanguage(lang) {
 
     });
 
-    document.querySelectorAll("[data-en]").forEach(el => {
-
-        const value =
-            el.getAttribute(`data-${lang}`);
-
-        if (value !== null) {
-            el.innerHTML = value;
-        }
-
-    });
+    /* ---------------------------------------------
+       Text content
+    --------------------------------------------- */
 
     document
-        .querySelectorAll("[data-placeholder-en]")
-        .forEach(el => {
+        .querySelectorAll("[data-en]")
+        .forEach(element => {
 
             const value =
-                el.getAttribute(
+                element.getAttribute(
+                    `data-${lang}`
+                );
+
+            if (value !== null) {
+
+                element.innerHTML =
+                    value;
+
+            }
+
+        });
+
+    /* ---------------------------------------------
+       Placeholders
+    --------------------------------------------- */
+
+    document
+        .querySelectorAll(
+            "[data-placeholder-en]"
+        )
+        .forEach(element => {
+
+            const value =
+                element.getAttribute(
                     `data-placeholder-${lang}`
                 );
 
             if (value !== null) {
-                el.placeholder = value;
+
+                element.placeholder =
+                    value;
+
             }
 
         });
 
+    /* ---------------------------------------------
+       ALT text
+    --------------------------------------------- */
+
     document
-        .querySelectorAll("[data-alt-en]")
-        .forEach(el => {
+        .querySelectorAll(
+            "[data-alt-en]"
+        )
+        .forEach(element => {
 
             const value =
-                el.getAttribute(
+                element.getAttribute(
                     `data-alt-${lang}`
                 );
 
             if (value !== null) {
-                el.alt = value;
+
+                element.alt =
+                    value;
+
             }
 
         });
 
+    /* ---------------------------------------------
+       Title
+    --------------------------------------------- */
+
     document
-        .querySelectorAll("[data-title-en]")
-        .forEach(el => {
+        .querySelectorAll(
+            "[data-title-en]"
+        )
+        .forEach(element => {
 
             const value =
-                el.getAttribute(
+                element.getAttribute(
                     `data-title-${lang}`
                 );
 
             if (value !== null) {
-                el.title = value;
+
+                element.title =
+                    value;
+
             }
 
         });
 
+    /* ---------------------------------------------
+       ARIA labels
+    --------------------------------------------- */
+
     document
-        .querySelectorAll("[data-aria-en]")
-        .forEach(el => {
+        .querySelectorAll(
+            "[data-aria-en]"
+        )
+        .forEach(element => {
 
             const value =
-                el.getAttribute(
+                element.getAttribute(
                     `data-aria-${lang}`
                 );
 
             if (value !== null) {
 
-                el.setAttribute(
+                element.setAttribute(
                     "aria-label",
                     value
                 );
@@ -559,42 +828,57 @@ function setLanguage(lang) {
 ========================================================== */
 
 const newsletterForm =
-    document.getElementById("newsletter-form");
+    document.getElementById(
+        "newsletter-form"
+    );
 
 const newsletterMessage =
-    document.getElementById("newsletter-message");
+    document.getElementById(
+        "newsletter-message"
+    );
+
 
 if (newsletterForm) {
 
     newsletterForm.addEventListener(
         "submit",
-        async function (e) {
+        async function(event) {
 
-            e.preventDefault();
+            event.preventDefault();
 
             const data =
-                new FormData(newsletterForm);
+                new FormData(
+                    newsletterForm
+                );
 
             const lang =
-                localStorage.getItem("lang") || "en";
+                localStorage.getItem(
+                    "lang"
+                ) || "en";
 
             const success = {
 
-                en: "✓ You're in. Welcome to Groteska.",
+                en:
+                    "✓ You're in. Welcome to Groteska.",
 
-                es: "✓ Ya formas parte del Club.",
+                es:
+                    "✓ Ya formas parte del Club.",
 
-                it: "✓ Benvenuto nel Club."
+                it:
+                    "✓ Benvenuto nel Club."
 
             };
 
             const error = {
 
-                en: "Something went wrong. Please try again.",
+                en:
+                    "Something went wrong. Please try again.",
 
-                es: "Ha ocurrido un error. Inténtalo de nuevo.",
+                es:
+                    "Ha ocurrido un error. Inténtalo de nuevo.",
 
-                it: "Si è verificato un errore. Riprova."
+                it:
+                    "Si è verificato un errore. Riprova."
 
             };
 
@@ -607,7 +891,7 @@ if (newsletterForm) {
                             method: "POST",
                             body: data,
                             headers: {
-                                "Accept":
+                                Accept:
                                     "application/json"
                             }
                         }
@@ -615,15 +899,35 @@ if (newsletterForm) {
 
                 if (response.ok) {
 
-                    newsletterMessage.textContent =
-                        success[lang];
+                    if (newsletterMessage) {
 
-                    newsletterMessage.className =
-                        "success";
+                        newsletterMessage.textContent =
+                            success[lang];
+
+                        newsletterMessage.className =
+                            "success";
+
+                    }
 
                     newsletterForm.reset();
 
                 } else {
+
+                    if (newsletterMessage) {
+
+                        newsletterMessage.textContent =
+                            error[lang];
+
+                        newsletterMessage.className =
+                            "error";
+
+                    }
+
+                }
+
+            } catch (errorObject) {
+
+                if (newsletterMessage) {
 
                     newsletterMessage.textContent =
                         error[lang];
@@ -632,14 +936,6 @@ if (newsletterForm) {
                         "error";
 
                 }
-
-            } catch {
-
-                newsletterMessage.textContent =
-                    error[lang];
-
-                newsletterMessage.className =
-                    "error";
 
             }
 
@@ -650,46 +946,61 @@ if (newsletterForm) {
 
 
 /* ==========================================================
-   CONTACT
+   CONTACT FORM
 ========================================================== */
 
 const contactForm =
-    document.getElementById("contact-form");
+    document.getElementById(
+        "contact-form"
+    );
 
 const contactMessage =
-    document.getElementById("contact-message");
+    document.getElementById(
+        "contact-message"
+    );
+
 
 if (contactForm) {
 
     contactForm.addEventListener(
         "submit",
-        async function (e) {
+        async function(event) {
 
-            e.preventDefault();
+            event.preventDefault();
 
             const data =
-                new FormData(contactForm);
+                new FormData(
+                    contactForm
+                );
 
             const lang =
-                localStorage.getItem("lang") || "en";
+                localStorage.getItem(
+                    "lang"
+                ) || "en";
 
             const success = {
 
-                en: "✓ Message sent. We'll be in touch soon.",
+                en:
+                    "✓ Message sent. We'll be in touch soon.",
 
-                es: "✓ Mensaje enviado. Te responderemos pronto.",
+                es:
+                    "✓ Mensaje enviado. Te responderemos pronto.",
 
-                it: "✓ Messaggio inviato. Ti risponderemo al più presto."
+                it:
+                    "✓ Messaggio inviato. Ti risponderemo al più presto."
 
             };
 
             const error = {
 
-                en: "Something went wrong. Please try again.",
+                en:
+                    "Something went wrong. Please try again.",
 
-                es: "Ha ocurrido un error. Inténtalo de nuevo.",
+                es:
+                    "Ha ocurrido un error. Inténtalo de nuevo.",
 
-                it: "Si è verificato un errore. Riprova."
+                it:
+                    "Si è verificato un errore. Riprova."
 
             };
 
@@ -710,15 +1021,35 @@ if (contactForm) {
 
                 if (response.ok) {
 
-                    contactMessage.textContent =
-                        success[lang];
+                    if (contactMessage) {
 
-                    contactMessage.className =
-                        "success";
+                        contactMessage.textContent =
+                            success[lang];
+
+                        contactMessage.className =
+                            "success";
+
+                    }
 
                     contactForm.reset();
 
                 } else {
+
+                    if (contactMessage) {
+
+                        contactMessage.textContent =
+                            error[lang];
+
+                        contactMessage.className =
+                            "error";
+
+                    }
+
+                }
+
+            } catch (errorObject) {
+
+                if (contactMessage) {
 
                     contactMessage.textContent =
                         error[lang];
@@ -727,14 +1058,6 @@ if (contactForm) {
                         "error";
 
                 }
-
-            } catch {
-
-                contactMessage.textContent =
-                    error[lang];
-
-                contactMessage.className =
-                    "error";
 
             }
 
@@ -745,7 +1068,7 @@ if (contactForm) {
 
 
 /* ==========================================================
-   SHOP CATEGORIES FILTER
+   SHOP CATEGORY FILTER
 ========================================================== */
 
 document.addEventListener(
@@ -753,12 +1076,16 @@ document.addEventListener(
     () => {
 
         const shop =
-            document.querySelector("#shop.collection");
+            document.querySelector(
+                "#shop.collection"
+            );
 
         if (!shop) return;
 
-        const buttons =
-            shop.querySelectorAll(".shop-category");
+        const categoryButtons =
+            shop.querySelectorAll(
+                ".shop-category"
+            );
 
         const products =
             shop.querySelectorAll(
@@ -770,7 +1097,7 @@ document.addEventListener(
                 "[data-category].editorial-quote"
             );
 
-        buttons.forEach(button => {
+        categoryButtons.forEach(button => {
 
             button.addEventListener(
                 "click",
@@ -779,40 +1106,48 @@ document.addEventListener(
                     const filter =
                         button.dataset.filter;
 
-                    buttons.forEach(item => {
+                    categoryButtons.forEach(
+                        item => {
 
-                        const active =
-                            item === button;
+                            const active =
+                                item === button;
 
-                        item.classList.toggle(
-                            "active",
-                            active
-                        );
+                            item.classList.toggle(
+                                "active",
+                                active
+                            );
 
-                        item.setAttribute(
-                            "aria-pressed",
-                            active
-                                ? "true"
-                                : "false"
-                        );
+                            item.setAttribute(
+                                "aria-pressed",
+                                active
+                                    ? "true"
+                                    : "false"
+                            );
 
-                    });
+                        }
+                    );
 
-                    products.forEach(product => {
+                    products.forEach(
+                        product => {
 
-                        product.hidden =
-                            filter !== "all" &&
-                            product.dataset.category !== filter;
+                            product.hidden =
+                                filter !== "all" &&
+                                product.dataset.category !==
+                                    filter;
 
-                    });
+                        }
+                    );
 
-                    quotes.forEach(quote => {
+                    quotes.forEach(
+                        quote => {
 
-                        quote.hidden =
-                            filter !== "all" &&
-                            quote.dataset.category !== filter;
+                            quote.hidden =
+                                filter !== "all" &&
+                                quote.dataset.category !==
+                                    filter;
 
-                    });
+                        }
+                    );
 
                 }
             );

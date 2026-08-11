@@ -91,7 +91,7 @@ ul {
 
 }
 
-/* Por defecto (mÃ³viles): se desactiva el enlace y el cursor de clic */
+/* Por defecto (mÃƒÂ³viles): se desactiva el enlace y el cursor de clic */
 .desktop-link {
     pointer-events: none;
     cursor: default;
@@ -106,7 +106,7 @@ ul {
 }
 
 /* =========================================================
-   iOS / Safari â€” prevent automatic blue links
+   iOS / Safari Ã¢â‚¬â€ prevent automatic blue links
    ========================================================= */
 
 a,
@@ -122,7 +122,7 @@ a:focus {
 
 
 /* =========================================================
-   ACCESSIBILITY â€” KEYBOARD FOCUS
+   ACCESSIBILITY Ã¢â‚¬â€ KEYBOARD FOCUS
 ========================================================= */
 
 a:focus-visible,
@@ -620,7 +620,7 @@ BACK TO TOP
 
 }
 
-/* Back to Top â€” pulsaciÃ³n suave */
+/* Back to Top Ã¢â‚¬â€ pulsaciÃƒÂ³n suave */
 #backToTop {
     animation: backToTopPulse 2s ease-in-out infinite;
     transform-origin: center;
@@ -638,7 +638,7 @@ BACK TO TOP
     }
 }
 
-/* Al pasar el ratÃ³n, se detiene la pulsaciÃ³n */
+/* Al pasar el ratÃƒÂ³n, se detiene la pulsaciÃƒÂ³n */
 #backToTop:hover {
     animation-play-state: paused;
     transform: scale(1.12);
@@ -845,7 +845,7 @@ body.menu-open {
 
 }
 
-/* BOTÃ“N CERRAR */
+/* BOTÃƒâ€œN CERRAR */
 
 .menu-close {
 
@@ -968,7 +968,6 @@ SHOP CATEGORY FILTERS
         color: #000 !important;
         -webkit-text-fill-color: #000 !important;
         text-decoration: none !important;
-        outline: none;
         -webkit-tap-highlight-color: transparent !important;
     }
 }
@@ -1539,8 +1538,6 @@ NEWSLETTER
 
     font-size: 1rem;
 
-    outline: none;
-
 }
 
 .newsletter input:focus {
@@ -1652,7 +1649,6 @@ CONTACT FORM
     border-bottom: 1px solid var(--line);
     background: transparent;
     font-size: 1rem;
-    outline: none;
 
 
 }
@@ -2412,7 +2408,7 @@ MOBILE MENU
 }
 
 /* =========================================================
-   ACCESSIBILITY â€” REDUCED MOTION
+   ACCESSIBILITY Ã¢â‚¬â€ REDUCED MOTION
 ========================================================= */
 
 @media (prefers-reduced-motion: reduce) {
