@@ -2014,7 +2014,7 @@ TABLET
 
     }
 
-.hero-image img {
+    .hero-image img {
 
         min-width: 100%;
 
@@ -2158,15 +2158,15 @@ MOBILE
     /* ---------- TICKER ---------- */
 
     .ticker-track span {
-    display: block;
-    padding-right: 120px;
-    font-family: var(--font-mono);
-    font-size: 0.7rem;
-    letter-spacing: .5em;
-    text-transform: uppercase;
-    color: #666;
-    flex-shrink: 0;
-}
+        display: block;
+        padding-right: 120px;
+        font-family: var(--font-mono);
+        font-size: 0.7rem;
+        letter-spacing: .5em;
+        text-transform: uppercase;
+        color: #666;
+        flex-shrink: 0;
+    }
 
     /* ---------- GRID ---------- */
 
@@ -2323,18 +2323,18 @@ MOBILE
 
     .footer-logo p {
 
-    font-family: var(--font-mono);
+        font-family: var(--font-mono);
 
-    letter-spacing: .2em;
+        letter-spacing: .2em;
 
-    font-size: .5rem;
+        font-size: .5rem;
 
-    padding-top: 10px;
+        padding-top: 10px;
 
-    text-align: left;
+        text-align: left;
 
 
-}
+    }
 
     /* ---------- IMAGES ---------- */
 
@@ -2405,7 +2405,7 @@ MOBILE MENU
 }
 
 /* =========================================================
-   ACCESSIBILITY ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â REDUCED MOTION
+   ACCESSIBILITY REDUCED MOTION
 ========================================================= */
 
 @media (prefers-reduced-motion: reduce) {
@@ -2427,7 +2427,7 @@ MOBILE MENU
 
 
 /* ==========================================================
-   MOBILE MENU â€” FIXED POSITION + NO FOCUS BORDER
+   MOBILE MENU FIXED POSITION + NO FOCUS BORDER
    ========================================================== */
 
 /*
@@ -2493,6 +2493,7 @@ MOBILE MENU
 
 /* Desktop keeps the existing header behaviour. */
 @media (min-width: 769px) {
+
     .menu,
     .menu-close {
         outline: none;
