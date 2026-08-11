@@ -2498,3 +2498,58 @@ MOBILE MENU
         outline: none;
     }
 }
+
+/* ==========================================================
+   FORM BUTTONS — MOBILE CHROME / SAFARI FIX
+========================================================== */
+
+.newsletter button,
+#contact button {
+    appearance: none;
+    -webkit-appearance: none;
+
+    background: transparent !important;
+    color: #111 !important;
+
+    border: 0;
+    border-radius: 0;
+
+    font: inherit;
+    cursor: pointer;
+
+    -webkit-text-fill-color: #111 !important;
+}
+
+/* Mantener exactamente el mismo aspecto en móvil */
+@media (max-width: 768px) {
+
+    .newsletter button,
+    #contact button {
+        appearance: none;
+        -webkit-appearance: none;
+
+        background: transparent !important;
+        color: #111 !important;
+
+        border: 0;
+        border-radius: 0;
+
+        width: 100%;
+        min-height: 44px;
+
+        -webkit-text-fill-color: #111 !important;
+    }
+}
+
+/* Focus accesible sin fondo blanco */
+.newsletter button:focus,
+#contact button:focus {
+    background: transparent !important;
+}
+
+.newsletter button:focus-visible,
+#contact button:focus-visible {
+    background: transparent !important;
+    color: #111 !important;
+    -webkit-text-fill-color: #111 !important;
+}
