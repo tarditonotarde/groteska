@@ -907,7 +907,7 @@ SHOP CATEGORY FILTERS
     flex-wrap: wrap;
     gap: 0.6rem 1.2rem;
     align-items: center;
-    padding: 20px;
+    padding: 100px 20px 20px 20px;
     margin: 0;
     position: relative;
     z-index: 5;
@@ -959,6 +959,7 @@ SHOP CATEGORY FILTERS
 @media (max-width: 700px) {
     .shop-categories {
         gap: 0.7rem 1rem;
+        padding-top: 2rem;
         color: inherit !important;
         -webkit-text-fill-color: currentColor !important;
     }
@@ -2254,7 +2255,7 @@ MOBILE
     .editorial-quote {
 
         width: 100%;
-        padding-top: 40px;
+        padding-top: 0px;
         padding-bottom: 40px;
         padding-right: 1px !important;
         padding-left: 1px !important;
