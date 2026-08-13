@@ -122,7 +122,7 @@ a:focus {
 
 
 /* =========================================================
-   ACCESSIBILITY ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â KEYBOARD FOCUS
+   ACCESSIBILITY KEYBOARD FOCUS
 ========================================================= */
 
 a:focus-visible,
@@ -907,7 +907,7 @@ SHOP CATEGORY FILTERS
     flex-wrap: wrap;
     gap: 0.6rem 1.2rem;
     align-items: center;
-    padding: 100px 0px 40px;
+    padding: 20px;
     margin: 0;
     position: relative;
     z-index: 5;
@@ -959,7 +959,6 @@ SHOP CATEGORY FILTERS
 @media (max-width: 700px) {
     .shop-categories {
         gap: 0.7rem 1rem;
-        padding-bottom: 2rem;
         color: inherit !important;
         -webkit-text-fill-color: currentColor !important;
     }
@@ -972,7 +971,14 @@ SHOP CATEGORY FILTERS
     }
 }
 
+/*==================================================
+DASHERY WIDGET
+==================================================*/
 
+.carousel-dashery-container {
+    margin-top: 40px;
+    border: none;
+}
 
 /*==================================================
 HERO
