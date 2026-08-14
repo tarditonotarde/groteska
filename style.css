@@ -41,6 +41,13 @@ body {
 
 }
 
+
+
+/* Image performance: dimensions prevent layout shifts while images load. */
+img {
+    height: auto;
+}
+
 img {
 
     display: block;
@@ -557,9 +564,9 @@ BACK TO TOP
 
     position: fixed;
 
-    right: 30px;
+    right: 20px;
 
-    bottom: 30px;
+    bottom: 60px;
 
     width: 56px;
 
@@ -2562,4 +2569,146 @@ MOBILE MENU
     background: transparent !important;
     color: #111 !important;
     -webkit-text-fill-color: #111 !important;
+}
+
+
+/* ==========================================================
+   COOKIE BANNER
+========================================================== */
+
+
+.cookie-banner {
+    position: fixed;
+    left: 20px;
+    right: 20px;
+    bottom: 20px;
+    z-index: 99999;
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 24px;
+    background: #faf9f6;
+    color: #111;
+    border: 1px solid #111;
+    box-shadow: 8px 8px 0 #111;
+    font-family: "Poppins", sans-serif;
+}
+
+.cookie-banner[hidden],
+.cookie-panel[hidden] {
+    display: none !important;
+}
+
+.cookie-banner h2 {
+    margin: 0 0 8px;
+    font-family: "DM Serif Display", serif;
+    font-size: 1.65rem;
+    font-weight: 400;
+    line-height: 1.05;
+}
+
+.cookie-banner p {
+    margin: 0 0 16px;
+    font-size: 0.9rem;
+    line-height: 1.55;
+}
+
+.cookie-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.cookie-actions button,
+.cookie-panel button {
+    appearance: none;
+    border: 1px solid #111;
+    background: transparent;
+    color: #111;
+    padding: 11px 16px;
+    font: 500 0.78rem/1 "Courier Prime", monospace;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+}
+
+.cookie-actions .cookie-accept {
+    background: #111;
+    color: #faf9f6;
+}
+
+.cookie-actions button:hover,
+.cookie-panel button:hover {
+    opacity: 0.72;
+}
+
+.cookie-panel {
+    margin-top: 18px;
+    padding-top: 18px;
+    border-top: 1px solid #111;
+}
+
+.cookie-panel h3 {
+    margin: 0 0 8px;
+    font-family: "Courier Prime", monospace;
+    font-size: 0.95rem;
+}
+
+.cookie-option {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin: 0 0 16px;
+    font-size: 0.85rem;
+    line-height: 1.45;
+}
+
+.cookie-option input {
+    margin-top: 3px;
+    accent-color: #111;
+}
+
+.cookie-manage {
+    position: fixed;
+    right: 16px;
+    bottom: 16px;
+    z-index: 99998;
+    display: none;
+    border: 1px solid #111;
+    background: #faf9f6;
+    color: #111;
+    padding: 9px 12px;
+    font: 500 0.7rem/1 "Courier Prime", monospace;
+    cursor: pointer;
+    box-shadow: 3px 3px 0 #111;
+}
+
+.cookie-manage.is-visible {
+    display: block;
+}
+
+@media (max-width: 600px) {
+    .cookie-banner {
+        left: 12px;
+        right: 12px;
+        bottom: 12px;
+        padding: 20px;
+        box-shadow: 5px 5px 0 #111;
+    }
+
+    .cookie-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .cookie-actions button {
+        width: 100%;
+    }
+
+    .cookie-actions .cookie-configure {
+        grid-column: 1 / -1;
+    }
+
+    .cookie-manage {
+        right: 12px;
+        bottom: 12px;
+    }
 }

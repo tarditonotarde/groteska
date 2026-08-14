@@ -842,7 +842,7 @@ if (newsletterForm) {
 
     newsletterForm.addEventListener(
         "submit",
-        async function(event) {
+        async function (event) {
 
             event.preventDefault();
 
@@ -964,7 +964,7 @@ if (contactForm) {
 
     contactForm.addEventListener(
         "submit",
-        async function(event) {
+        async function (event) {
 
             event.preventDefault();
 
@@ -1133,7 +1133,7 @@ document.addEventListener(
                             product.hidden =
                                 filter !== "all" &&
                                 product.dataset.category !==
-                                    filter;
+                                filter;
 
                         }
                     );
@@ -1144,7 +1144,7 @@ document.addEventListener(
                             quote.hidden =
                                 filter !== "all" &&
                                 quote.dataset.category !==
-                                    filter;
+                                filter;
 
                         }
                     );
@@ -1156,3 +1156,99 @@ document.addEventListener(
 
     }
 );
+
+
+/* ==========================================================
+   COOKIE BANNER
+========================================================== */
+
+
+id = "cookie-consent-script" >
+    (function () {
+        const CONSENT_KEY = "groteska_cookie_consent";
+        const GA_ID = "G-C589S8K7GR";
+
+        const banner = document.getElementById("cookie-banner");
+        const panel = document.getElementById("cookie-panel");
+        const accept = document.getElementById("cookie-accept");
+        const reject = document.getElementById("cookie-reject");
+        const configure = document.getElementById("cookie-configure");
+        const save = document.getElementById("cookie-save");
+        const analyticsCheckbox = document.getElementById("analytics-consent");
+        const manage = document.getElementById("cookie-manage");
+
+        function loadAnalytics() {
+            if (window.__groteskaAnalyticsLoaded) return;
+
+            window.dataLayer = window.dataLayer || [];
+            function gtag() {
+                window.dataLayer.push(arguments);
+            }
+            window.gtag = gtag;
+
+            gtag("js", new Date());
+            gtag("config", GA_ID);
+
+            const script = document.createElement("script");
+            script.async = true;
+            script.src = "https://www.googletagmanager.com/gtag/js?id=" + GA_ID;
+            document.head.appendChild(script);
+
+            window.__groteskaAnalyticsLoaded = true;
+        }
+
+        function setConsent(value) {
+            localStorage.setItem(CONSENT_KEY, value);
+
+            if (value === "accepted") {
+                loadAnalytics();
+            }
+
+            banner.hidden = true;
+            panel.hidden = true;
+            manage.classList.add("is-visible");
+        }
+
+        function showBanner() {
+            banner.hidden = false;
+            manage.classList.remove("is-visible");
+        }
+
+        function showPanel() {
+            panel.hidden = false;
+            analyticsCheckbox.checked =
+                localStorage.getItem(CONSENT_KEY) === "accepted";
+        }
+
+        const storedConsent = localStorage.getItem(CONSENT_KEY);
+
+        if (!storedConsent) {
+            showBanner();
+        } else {
+            manage.classList.add("is-visible");
+            if (storedConsent === "accepted") {
+                loadAnalytics();
+            }
+        }
+
+        accept.addEventListener("click", function () {
+            setConsent("accepted");
+        });
+
+        reject.addEventListener("click", function () {
+            setConsent("rejected");
+        });
+
+        configure.addEventListener("click", function () {
+            showPanel();
+        });
+
+        save.addEventListener("click", function () {
+            setConsent(analyticsCheckbox.checked ? "accepted" : "rejected");
+        });
+
+        manage.addEventListener("click", function () {
+            showBanner();
+            showPanel();
+        });
+    })();
