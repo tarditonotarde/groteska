@@ -42,12 +42,6 @@ body {
 }
 
 
-
-/* Image performance: dimensions prevent layout shifts while images load. */
-img {
-    height: auto;
-}
-
 img {
 
     display: block;
@@ -98,7 +92,7 @@ ul {
 
 }
 
-/* Por defecto (mÃƒÆ’Ã‚Â³viles): se desactiva el enlace y el cursor de clic */
+/* Por defecto (móviles): se desactiva el enlace y el cursor de clic */
 .desktop-link {
     pointer-events: none;
     cursor: default;
