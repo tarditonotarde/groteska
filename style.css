@@ -92,20 +92,6 @@ ul {
 
 }
 
-/* Por defecto (móviles): se desactiva el enlace y el cursor de clic */
-.desktop-link {
-    pointer-events: none;
-    cursor: default;
-}
-
-/* En pantallas grandes (Desktop): se activa nuevamente el enlace */
-@media (min-width: 768px) {
-    .desktop-link {
-        pointer-events: auto;
-        cursor: pointer;
-    }
-}
-
 /* =========================================================
    iOS / Safari ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â prevent automatic blue links
    ========================================================= */
