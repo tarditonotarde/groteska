@@ -93,7 +93,7 @@ ul {
 }
 
 /* =========================================================
-   iOS / Safari ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â prevent automatic blue links
+   iOS / Safari  prevent automatic blue links
    ========================================================= */
 
 a,
@@ -570,7 +570,6 @@ BACK TO TOP
     letter-spacing: .18em;
     font-family: var(--font-mono);
     text-transform: uppercase;
-
 
     cursor: pointer;
 
@@ -2108,8 +2107,8 @@ MOBILE
 
         gap: 40px;
 
-        padding-top: 160px;
-
+        padding-top: 100px;
+        
     }
 
     .hero-copy,
