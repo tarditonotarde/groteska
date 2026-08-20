@@ -2304,11 +2304,11 @@ img.loaded {
         gap: 10px;
     }
 
-.look-title {
-    font-family: var(--font-serif);
-    font-size: 1rem;
-    max-width: 100%;
-}
+    .look-title {
+        font-family: var(--font-serif);
+        font-size: 1rem;
+        max-width: 100%;
+    }
 
     .look-link {
         width: 100%;
