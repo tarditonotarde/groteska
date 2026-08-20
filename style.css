@@ -974,19 +974,17 @@ body.menu-open {
     overflow: hidden;
 }
 
-.hero-image img {
-    aspect-ratio: 4/5;
-
-    object-fit: cover;
-
-    transition: 1.2s cubic-bezier(.22, .61, .36, 1);
-
+.hero-image video {
+    display: block;
+    width: 100%;
     max-width: 60%;
-
+    aspect-ratio: 4/5;
     height: auto;
+    object-fit: cover;
+    transition: 1.2s cubic-bezier(.22, .61, .36, 1);
 }
 
-.hero-image:hover img {
+.hero-image:hover video {
     transform: scale(1.02);
 }
 
@@ -2411,7 +2409,7 @@ img.loaded {
 
     /* HERO — Tutto Passa */
     .hero-image,
-    .hero-image img {
+    .hero-image video {
         width: 100%;
         max-width: 100%;
     }
