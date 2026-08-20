@@ -1101,6 +1101,30 @@ body.menu-open {
     width: 100%;
 }
 
+.look-info-out-of-context {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.look-info-out-of-context .look-title {
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    line-height: 1.1;
+    max-width: 100%;
+}
+
+.look-info-out-of-context .look-link {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+#collection.collection .look-info-out-of-context .look-link {
+    width: 100%;
+    text-align: center;
+}
+
 .look-xs {
     grid-column: span 4;
 }
@@ -2298,7 +2322,7 @@ img.loaded {
     }
 
     /* El texto queda debajo de cada producto */
-    #collection.collection .look-info {
+    #collection.collection .look-info .look-info-out-of-context {
         display: flex;
         flex-direction: column;
         gap: 10px;
@@ -2310,13 +2334,30 @@ img.loaded {
         max-width: 100%;
     }
 
+    .look-info-out-of-context .look-title {
+        font-family: var(--font-serif);
+        font-size: 1rem;
+        max-width: 100%;
+    }
+
     .look-link {
         width: 100%;
         display: flex;
         justify-content: center;
     }
 
+    .look-info-out-of-context .look-link {
+       width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+
     #collection.collection .look-link {
+        width: 100%;
+        text-align: center;
+    }
+
+      #collection.collection .look-info-out-of-context .look-link {
         width: 100%;
         text-align: center;
     }
