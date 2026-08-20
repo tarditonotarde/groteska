@@ -2361,19 +2361,7 @@ MOBILE
 
     }
 
-    .hero-image img {
 
-        display: block;
-
-        width: 100%;
-        height: auto;
-
-        aspect-ratio: 4/5;
-        object-fit: cover;
-
-        justify-self: center;
-
-    }
 
     /* ---------- TICKER ---------- */
 
@@ -2987,6 +2975,24 @@ MOBILE MENU
     /* Las frases editoriales siguen ocupando todo el ancho */
     #shop.collection>.editorial-quote {
         grid-column: 1 / -1;
+    }
+
+}
+
+@media (max-width: 820px) {
+
+    /* HERO — Tutto Passa */
+    .hero-image,
+    .hero-image img {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    /* ABOUT — Pavarotti */
+    .editorial-media,
+    .editorial-media img {
+        width: 100%;
+        max-width: 100%;
     }
 
 }
