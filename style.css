@@ -473,7 +473,7 @@ p {
 
     display: flex;
 
-    gap: 52px;
+    gap: 20px;
 }
 
 .navigation a {
@@ -2251,7 +2251,7 @@ img.loaded {
 @media (max-width: 1024px) {
 
     /* La colecciÃ³n pasa a una cuadrÃ­cula de 2 columnas */
-    #shop.collection {
+    #collection.collection {
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 32px 12px;
@@ -2259,13 +2259,13 @@ img.loaded {
     }
 
     /* Los productos ocupan una sola columna */
-    #shop.collection .look,
-    #shop.collection .look-xs,
-    #shop.collection .look-sm,
-    #shop.collection .look-md,
-    #shop.collection .look-lg,
-    #shop.collection .look-xl,
-    #shop.collection .look-full {
+    #collection.collection .look,
+    #collection.collection .look-xs,
+    #collection.collection .look-sm,
+    #collection.collection .look-md,
+    #collection.collection .look-lg,
+    #collection.collection .look-xl,
+    #collection.collection .look-full {
         width: 100%;
         margin: 0;
         grid-column: auto !important;
@@ -2275,21 +2275,21 @@ img.loaded {
     }
 
     /* Elimina los offsets del diseÃ±o editorial en mÃ³vil */
-    #shop.collection .look-offset-left,
-    #shop.collection .look-offset-right {
+    #collection.collection .look-offset-left,
+    #collection.collection .look-offset-right {
         margin-left: 0;
         margin-right: 0;
     }
 
     /* Imagen cuadrada y mÃ¡s pequeÃ±a */
-    #shop.collection .look figure {
+    #collection.collection .look figure {
         width: 100%;
         aspect-ratio: 1 / 1;
         overflow: hidden;
         margin: 0;
     }
 
-    #shop.collection .look figure img {
+    #collection.collection .look figure img {
         width: 100%;
         height: 100%;
         aspect-ratio: 1 / 1;
@@ -2298,7 +2298,7 @@ img.loaded {
     }
 
     /* El texto queda debajo de cada producto */
-    #shop.collection .look-info {
+    #collection.collection .look-info {
         display: flex;
         flex-direction: column;
         gap: 10px;
@@ -2316,13 +2316,13 @@ img.loaded {
         justify-content: center;
     }
 
-    #shop.collection .look-link {
+    #collection.collection .look-link {
         width: 100%;
         text-align: center;
     }
 
     /* Las frases editoriales siguen ocupando todo el ancho */
-    #shop.collection>.editorial-quote {
+    #collection.collection>.editorial-quote {
         grid-column: 1 / -1;
     }
 }

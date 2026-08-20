@@ -1077,7 +1077,7 @@ document.addEventListener(
 
         const shop =
             document.querySelector(
-                "#shop.collection"
+                "#collection.collection"
             );
 
         if (!shop) return;
@@ -1259,7 +1259,7 @@ document.addEventListener(
 document.addEventListener("DOMContentLoaded", () => {
 
     const collection =
-        document.querySelector("#shop.collection");
+        document.querySelector("#collection.collection");
 
     const searchInput =
         document.getElementById("shop-search-input");
