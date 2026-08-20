@@ -1060,6 +1060,7 @@ body.menu-open {
     font-family: var(--font-serif);
     font-size: 1.5rem;
     max-width: 50%;
+    line-height: 1.1;
 }
 
 .look-title-xs {
@@ -1102,6 +1103,11 @@ body.menu-open {
 
 .look-xs {
     grid-column: span 4;
+}
+
+.look-s {
+    grid-column: span 5;
+    justify-content: space-between;
 }
 
 .look-sm {
@@ -2297,6 +2303,12 @@ img.loaded {
         flex-direction: column;
         gap: 10px;
     }
+
+.look-title {
+    font-family: var(--font-serif);
+    font-size: 1rem;
+    max-width: 100%;
+}
 
     .look-link {
         width: 100%;
