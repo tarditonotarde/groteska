@@ -93,7 +93,7 @@ ul {
 }
 
 /* =========================================================
-   iOS / Safari  prevent automatic blue links
+   iOS / Safari Â prevent automatic blue links
    ========================================================= */
 
 a,
@@ -109,7 +109,7 @@ a:focus {
 
 
 /* =========================================================
-   ACCESSIBILITY KEYBOARD FOCUS
+   ACCESSIBILITYÂ KEYBOARD FOCUS
 ========================================================= */
 
 a:focus-visible,
@@ -606,7 +606,7 @@ BACK TO TOP
 
 }
 
-/* Back to Top ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â pulsaciÃƒÆ’Ã‚Â³n suave */
+/* Back to Top ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â pulsaciÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â³n suave */
 #backToTop {
     animation: backToTopPulse 2s ease-in-out infinite;
     transform-origin: center;
@@ -624,7 +624,7 @@ BACK TO TOP
     }
 }
 
-/* Al pasar el ratÃƒÆ’Ã‚Â³n, se detiene la pulsaciÃƒÆ’Ã‚Â³n */
+/* Al pasar el ratÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â³n, se detiene la pulsaciÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â³n */
 #backToTop:hover {
     animation-play-state: paused;
     transform: scale(1.12);
@@ -831,7 +831,7 @@ body.menu-open {
 
 }
 
-/* BOTÃƒÆ’Ã¢â‚¬Å“N CERRAR */
+/* BOTÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œN CERRAR */
 
 .menu-close {
 
@@ -871,6 +871,290 @@ body.menu-open {
 }
 
 
+/* ==================================================
+   SHOP SEARCH â€” SMART PRODUCT SEARCH
+================================================== */
+
+.searcher {
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+}
+
+.shop-search {
+    grid-column: 1 / -1;
+    width: min(100%, 980px);
+    margin: 0 auto 40px;
+    position: relative;
+    z-index: 50;
+}
+
+.shop-search-input {
+    width: 100%;
+    height: 56px;
+    padding: 0 54px 0 20px;
+
+    border: 1px solid #111;
+    border-radius: 0;
+
+    background: rgba(250, 249, 246, .72);
+    color: #111;
+
+    font-family: var(--font-mono);
+    font-size: .82rem;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+
+    outline: none;
+
+    transition:
+        background .25s ease,
+        box-shadow .25s ease;
+}
+
+.shop-search-input::placeholder {
+    color: #111;
+    opacity: .45;
+}
+
+.shop-search-input:focus {
+    box-shadow: 0 8px 30px rgba(0, 0, 0, .06);
+}
+
+/* We use our own clear button â€” no browser X. */
+.shop-search-input::-webkit-search-cancel-button,
+.shop-search-input::-webkit-search-decoration {
+    -webkit-appearance: none;
+    appearance: none;
+    display: none;
+}
+
+.shop-search-clear {
+    position: absolute;
+    right: 14px;
+    top: 28px;
+
+    width: 30px;
+
+
+    padding: 0;
+    margin: 0;
+
+    border: 0;
+    background: transparent;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+
+    opacity: .7;
+
+    transition: opacity .2s ease;
+}
+
+
+/* ==================================================
+   X
+   ================================================== */
+
+.shop-search-clear::before,
+.shop-search-clear::after {
+    content: "";
+
+    position: absolute;
+
+    width: 15px;
+    height: 1.5px;
+
+    left: 50%;
+    top: 50%;
+
+    background: #111;
+
+    transform-origin: center center;
+
+    transition:
+        transform .2s ease,
+        width .2s ease;
+}
+
+
+/* Diagonal 1 */
+
+.shop-search-clear::before {
+    transform:
+        translate(-50%, -50%) rotate(45deg);
+}
+
+
+/* Diagonal 2 */
+
+.shop-search-clear::after {
+    transform:
+        translate(-50%, -50%) rotate(-45deg);
+}
+
+
+/* ==================================================
+   HOVER
+   ================================================== */
+
+.shop-search-clear:hover {
+    opacity: 1;
+}
+
+
+/*
+ * Rotate the entire X from its exact center.
+ */
+
+.shop-search-clear:hover::before {
+    transform:
+        translate(-50%, -50%) rotate(135deg);
+}
+
+.shop-search-clear:hover::after {
+    transform:
+        translate(-50%, -50%) rotate(45deg);
+}
+
+
+
+/* Smart tag / autocomplete panel */
+.shop-search-suggestions {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    right: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    padding: 8px 0;
+
+    background: rgba(250, 249, 246, .72);
+    border: 1px solid #111;
+
+    box-shadow: 0 16px 40px rgba(0, 0, 0, .08);
+
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+}
+
+.shop-search-suggestion {
+    width: 100%;
+    min-height: 42px;
+
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    padding: 8px 16px;
+
+    text-align: left;
+
+    font-family: var(--font-mono);
+    font-size: .72rem;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+
+    color: #111;
+    background: transparent;
+
+    cursor: pointer;
+
+    transition:
+        background .18s ease,
+        padding-left .18s ease;
+}
+
+.shop-search-suggestion:hover,
+.shop-search-suggestion.is-selected {
+    background: #f1f0ec;
+    padding-left: 20px;
+}
+
+.shop-search-suggestion-icon {
+    width: 16px;
+    flex: 0 0 16px;
+    opacity: .45;
+}
+
+.shop-search-suggestion mark {
+    background: transparent;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.shop-search-status {
+    min-height: 18px;
+    margin-top: 10px;
+
+    font-family: var(--font-mono);
+    font-size: .62rem;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+
+    opacity: .5;
+}
+
+/* Search/category filtering must never leave decorative
+   category quotes visible as search results. */
+.collection article[data-category][hidden],
+.collection>.editorial-quote[hidden] {
+    display: none !important;
+}
+
+@media (max-width: 700px) {
+
+    .shop-search {
+        width: 100%;
+        margin-top: 4px;
+        margin-bottom: 0;
+    }
+
+    .shop-search-input {
+        height: 48px;
+        padding-left: 16px;
+        font-size: .68rem;
+    }
+
+    .shop-search-clear {
+        top: 24px;
+        right: 10px;
+    }
+
+    .shop-search-suggestions {
+        top: calc(100% + 5px);
+    }
+
+    .shop-search-suggestion {
+        min-height: 44px;
+        padding: 9px 13px;
+        font-size: .64rem;
+    }
+
+    .shop-search-status {
+        font-size: .58rem;
+    }
+}
+
+
+/* ==================================================
+   SEARCH SUGGESTIONS — HIDDEN BY DEFAULT
+================================================== */
+
+.shop-search-suggestions[hidden] {
+    display: none !important;
+}
+
+.shop-search-status:empty {
+    display: none !important;
+}
+
 
 /*==================================================
 SHOP CATEGORY FILTERS
@@ -893,7 +1177,6 @@ SHOP CATEGORY FILTERS
     flex-wrap: wrap;
     gap: 0.6rem 1.2rem;
     align-items: center;
-    padding: 100px 20px 20px 20px;
     margin: 0;
     position: relative;
     z-index: 5;
@@ -907,7 +1190,7 @@ SHOP CATEGORY FILTERS
     padding: 0;
     margin: 0;
     font: inherit;
-    font-size: 1rem;
+    font-size: 0.75rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     font-family: var(--font-mono);
@@ -945,7 +1228,8 @@ SHOP CATEGORY FILTERS
 @media (max-width: 700px) {
     .shop-categories {
         gap: 0.7rem 1rem;
-        padding-top: 2rem;
+        padding-top: 16px;
+        justify-content: flex-start;
         color: inherit !important;
         -webkit-text-fill-color: currentColor !important;
     }
@@ -955,6 +1239,11 @@ SHOP CATEGORY FILTERS
         -webkit-text-fill-color: #000 !important;
         text-decoration: none !important;
         -webkit-tap-highlight-color: transparent !important;
+        font-size: 0.5rem;
+    }
+
+    .editorial-quote-shop {
+        padding-top: 40px;
     }
 }
 
@@ -962,9 +1251,19 @@ SHOP CATEGORY FILTERS
 DASHERY WIDGET
 ==================================================*/
 
+.dashery-title {
+    padding-top: 20px;
+}
+
 .carousel-dashery-container {
     margin-top: 40px;
     border: none;
+}
+
+@media (max-width: 700px) {
+    .dashery-title {
+        padding-top: 0px;
+    }
 }
 
 /*==================================================
@@ -2108,7 +2407,9 @@ MOBILE
         gap: 40px;
 
         padding-top: 100px;
-        
+
+        padding-bottom: 40px;
+
     }
 
     .hero-copy,
@@ -2490,7 +2791,7 @@ MOBILE MENU
 }
 
 /* ==========================================================
-   FORM BUTTONS — MOBILE CHROME / SAFARI FIX
+   FORM BUTTONS â€” MOBILE CHROME / SAFARI FIX
 ========================================================== */
 
 .newsletter button,
@@ -2512,7 +2813,7 @@ MOBILE MENU
 
 }
 
-/* Mantener exactamente el mismo aspecto en móvil */
+/* Mantener exactamente el mismo aspecto en mÃ³vil */
 @media (max-width: 768px) {
 
     .newsletter button,
@@ -2686,4 +2987,80 @@ MOBILE MENU
         right: 12px;
         bottom: 12px;
     }
+}
+
+/* ==========================================================
+   MOBILE SHOP â€” 2 PRODUCTS PER ROW
+   ========================================================== */
+
+@media (max-width: 768px) {
+
+    /* La colecciÃ³n pasa a una cuadrÃ­cula de 2 columnas */
+    #shop.collection {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 32px 12px;
+        width: 100%;
+    }
+
+    /* Los productos ocupan una sola columna */
+    #shop.collection .look,
+    #shop.collection .look-xs,
+    #shop.collection .look-sm,
+    #shop.collection .look-md,
+    #shop.collection .look-lg,
+    #shop.collection .look-xl,
+    #shop.collection .look-full {
+        width: 100%;
+        margin: 0;
+        grid-column: auto !important;
+        gap: 10px;
+    }
+
+    /* Elimina los offsets del diseÃ±o editorial en mÃ³vil */
+    #shop.collection .look-offset-left,
+    #shop.collection .look-offset-right {
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    /* Imagen cuadrada y mÃ¡s pequeÃ±a */
+    #shop.collection .look figure {
+        width: 100%;
+        aspect-ratio: 1 / 1;
+        overflow: hidden;
+        margin: 0;
+    }
+
+    #shop.collection .look figure img {
+        width: 100%;
+        height: 100%;
+        aspect-ratio: 1 / 1;
+        object-fit: cover;
+        display: block;
+    }
+
+    /* El texto queda debajo de cada producto */
+    #shop.collection .look-info {
+        display: flex;
+    }
+
+
+
+    #shop.collection .look-title {
+        font-size: 0.7rem;
+        line-height: 1.1;
+    }
+
+    #shop.collection .look-link {
+        font-size: .5rem;
+        gap: 6px;
+        padding: 6px 12px;
+    }
+
+    /* Las frases editoriales siguen ocupando todo el ancho */
+    #shop.collection>.editorial-quote {
+        grid-column: 1 / -1;
+    }
+
 }

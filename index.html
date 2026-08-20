@@ -67,7 +67,11 @@
     }
     </script>
 
-    <style>img {height: auto;}</style>
+    <style>
+        img {
+            height: auto;
+        }
+    </style>
 
 
 </head>
@@ -335,7 +339,7 @@
             </div>
 
 
-            <section class="editorial-quote-shop reveal">
+            <section class="dashery-title editorial-quote-shop reveal">
 
                 <h2 data-en="new arrivals on dashery" data-es="nuevos productos en dashery"
                     data-it="nuovi arrivi su dashery">
@@ -376,13 +380,31 @@
 
         </section>
 
-        <section id="shop" class="editorial-quote-shop reveal">
+        <section id="shop" class="searcher editorial-quote-shop reveal">
 
             <h2 data-en="Shop" data-es="Shop" data-it="Shop">
 
                 Shop
 
             </h2>
+
+            <div class="shop-search">
+                <label for="shop-search-input" class="sr-only">
+                    Search products
+                </label>
+
+                <input type="text" id="shop-search-input" class="shop-search-input" placeholder="SEARCH PRODUCTS..."
+                    data-placeholder-en="SEARCH PRODUCTS..." data-placeholder-es="BUSCAR PRODUCTOS..."
+                    data-placeholder-it="CERCA PRODOTTI..." autocomplete="off">
+
+                <button type="button" id="shop-search-clear" class="shop-search-clear" aria-label="Clear search"
+                    hidden></button>
+
+                <div id="shop-search-suggestions" class="shop-search-suggestions" role="listbox"
+                    aria-label="Search suggestions" hidden></div>
+
+                <div id="shop-search-status" class="shop-search-status" aria-live="polite" aria-atomic="true"></div>
+            </div>
 
         </section>
 
@@ -501,11 +523,11 @@
 
                 <div class="look-info">
 
-                    <!-- <h2 class="look-title" data-en="Tutto Passa" data-es="Tutto Pasa" data-it="Tutto Passa">
+                    <h2 class="look-title" data-en="Italy? You wouldn't understand."
+                        data-es="¿Italia? No lo entenderías." data-it="L'Italia? Non potresti capire.">
 
-                        Tutto Passa
-
-                    </h2> -->
+                        Italy? You wouldn't understand.
+                    </h2>
 
                     <a href="https://groteska.dashery.com/products/96399584-tutto-passa-everything-passes-italian-quote-light-t-shirt"
                         target="_blank" rel="noopener noreferrer" class="look-link" data-en="SHOP →" data-es="SHOP →"
@@ -594,11 +616,9 @@
 
                 <div class="look-info">
 
-                    <!--  <h2 class="look-title" data-en="Tutto Passa" data-es="Tutto Pasa" data-it="Tutto Passa">
-
-                        Tutto Passa
-
-                    </h2> -->
+                    <h2 class="look-title" data-en="Italian Summer" data-es="Verano italiano" data-it="Estate italiana">
+                        Estate italiana
+                    </h2>
 
                     <a href="https://groteska.dashery.com/products/97279453-tutto-passa-everything-passes-italian-quote-light-t-shirt"
                         target="_blank" rel="noopener noreferrer" class="look-link" data-en="SHOP →" data-es="SHOP →"
@@ -630,11 +650,9 @@
 
                 <div class="look-info">
 
-                    <!--  <h2 class="look-title" data-en="Tutto Passa" data-es="Tutto Pasa" data-it="Tutto Passa">
-
-                        Tutto Passa
-
-                    </h2> -->
+                    <h2 class="look-title" data-en="Forza Napoli" data-es="Forza Napoli" data-it="Forza Napoli">
+                        Forza Napoli
+                    </h2>
 
                     <a href="https://groteska.dashery.com/products/97279445-tutto-passa-everything-passes-italian-quote-light-t-shirt"
                         target="_blank" rel="noopener noreferrer" class="look-link" data-en="SHOP →" data-es="SHOP →"

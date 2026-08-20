@@ -1165,7 +1165,6 @@ document.addEventListener(
 (function () {
     const CONSENT_KEY = "groteska_cookie_consent";
     const GA_ID = "G-C589S8K7GR";
-
     const banner = document.getElementById("cookie-banner");
     const panel = document.getElementById("cookie-panel");
     const accept = document.getElementById("cookie-accept");
@@ -1250,3 +1249,1318 @@ document.addEventListener(
         showPanel();
     });
 })();
+
+
+
+/* ==========================================================
+   SHOP SEARCH — PRODUCT ONLY / SMART TAG SUGGESTIONS
+   ========================================================== */
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    const collection =
+        document.querySelector("#shop.collection");
+
+    const searchInput =
+        document.getElementById("shop-search-input");
+
+    const clearButton =
+        document.getElementById("shop-search-clear");
+
+    const suggestions =
+        document.getElementById("shop-search-suggestions");
+
+    const status =
+        document.getElementById("shop-search-status");
+
+
+    if (!collection || !searchInput) return;
+
+
+    /* ==========================================================
+       PRODUCTS
+       ========================================================== */
+
+    const products =
+        Array.from(
+            collection.querySelectorAll(
+                "article[data-category]"
+            )
+        );
+
+
+    /* ==========================================================
+       CATEGORY BUTTONS
+       ========================================================== */
+
+    const categoryButtons =
+        Array.from(
+            collection.querySelectorAll(
+                ".shop-category"
+            )
+        );
+
+
+    /* ==========================================================
+       EDITORIAL QUOTES
+       ========================================================== */
+
+    const editorialQuotes =
+        Array.from(
+            collection.querySelectorAll(
+                ".editorial-quote[data-category]"
+            )
+        );
+
+
+    /* ==========================================================
+       STATE
+       ========================================================== */
+
+    let activeCategory = "all";
+
+    let selectedSuggestionIndex = -1;
+
+
+    /* ==========================================================
+       HELPERS
+       ========================================================== */
+
+    const normalize = value =>
+        String(value || "")
+            .normalize("NFD")
+            .replace(
+                /[\u0300-\u036f]/g,
+                ""
+            )
+            .toLowerCase()
+            .replace(
+                /[’']/g,
+                ""
+            )
+            .replace(
+                /[^a-z0-9]+/g,
+                " "
+            )
+            .trim();
+
+
+    const unique = values =>
+        [
+            ...new Set(
+                values.filter(Boolean)
+            )
+        ];
+
+
+    /* ==========================================================
+       STOP WORDS
+       ========================================================== */
+
+    const STOP_WORDS =
+        new Set([
+            "the",
+            "and",
+            "with",
+            "from",
+            "for",
+            "you",
+            "would",
+            "graphic",
+            "shirt",
+            "t",
+            "tshirt",
+            "camiseta",
+            "camisetas",
+            "maglietta",
+            "editorial",
+            "campaign",
+            "light",
+            "full",
+            "color",
+            "italian",
+            "italiana",
+            "italiano"
+        ]);
+
+
+    /* ==========================================================
+       CLOSE SUGGESTIONS
+       ========================================================== */
+
+    function closeSuggestions() {
+
+        if (!suggestions) return;
+
+        suggestions.innerHTML = "";
+
+        suggestions.hidden = true;
+
+        selectedSuggestionIndex = -1;
+    }
+
+
+    /* ==========================================================
+       PRODUCT INDEX
+       
+       IMPORTANT:
+       Only real product cards are indexed.
+       Editorial quotes are NEVER search results.
+       ========================================================== */
+
+    function buildProductData(product) {
+
+        const title =
+            product
+                .querySelector(".look-title")
+                ?.textContent || "";
+
+
+        const imageAlt =
+            product
+                .querySelector("img")
+                ?.alt || "";
+
+
+        const category =
+            product.dataset.category || "";
+
+
+        const url =
+            product
+                .querySelector(".look-link")
+                ?.href || "";
+
+
+        const sourceText = [
+
+            title,
+
+            imageAlt,
+
+            category.replace(
+                /-/g,
+                " "
+            ),
+
+            url
+
+        ].join(" ");
+
+
+        const normalized =
+            normalize(
+                sourceText
+            );
+
+
+        /* ----------------------------------------------------------
+           Useful phrases for suggestions
+           ---------------------------------------------------------- */
+
+        const phraseTags = [
+
+            title.trim(),
+
+            imageAlt
+                .replace(
+                    /\bgraphic\b/gi,
+                    ""
+                )
+                .replace(
+                    /\bt-?shirt\b/gi,
+                    ""
+                )
+                .replace(
+                    /\bwith\b/gi,
+                    ""
+                )
+                .replace(
+                    /\beditorial campaign\b/gi,
+                    ""
+                )
+                .trim()
+
+        ];
+
+
+        /* ----------------------------------------------------------
+           Individual searchable words
+           ---------------------------------------------------------- */
+
+        const wordTags =
+            sourceText
+
+                .split(
+                    /[\s,|&/().:?'"“”–—-]+/
+                )
+
+                .map(
+                    word =>
+                        word.trim()
+                )
+
+                .filter(word => {
+
+                    const n =
+                        normalize(
+                            word
+                        );
+
+                    return (
+                        n.length >= 3 &&
+                        !STOP_WORDS.has(n) &&
+                        !/^\d+$/.test(n)
+                    );
+
+                });
+
+
+        const tags =
+            unique([
+                ...phraseTags,
+                ...wordTags
+            ])
+
+                .map(
+                    tag =>
+                        tag.trim()
+                )
+
+                .filter(
+                    tag =>
+                        tag.length > 2
+                )
+
+                .slice(
+                    0,
+                    14
+                );
+
+
+        return {
+
+            element: product,
+
+            title:
+                title.trim(),
+
+            category,
+
+            url,
+
+            normalized,
+
+            tags
+
+        };
+    }
+
+
+    const productIndex =
+        products.map(
+            buildProductData
+        );
+
+
+    /* ==========================================================
+       SUGGESTION POOL
+       
+       Suggestions come from ALL products,
+       regardless of selected category.
+       ========================================================== */
+
+    const suggestionPool =
+        unique(
+            productIndex.flatMap(
+                product =>
+                    product.tags
+            )
+        );
+
+
+    /* ==========================================================
+       SEARCH TOKENS
+       ========================================================== */
+
+    function getTokens(value) {
+
+        return normalize(value)
+
+            .split(/\s+/)
+
+            .filter(Boolean);
+    }
+
+
+    /* ==========================================================
+       PRODUCT MATCHING
+       ========================================================== */
+
+    function productMatches(
+        product,
+        query
+    ) {
+
+        if (!query) return true;
+
+
+        const tokens =
+            getTokens(
+                query
+            );
+
+
+        /*
+         * Every word typed must match
+         * somewhere inside the product.
+         */
+
+        return tokens.every(
+            token =>
+                product.normalized
+                    .includes(token)
+        );
+    }
+
+
+    /* ==========================================================
+       SMART SUGGESTIONS
+       ========================================================== */
+
+    function getSuggestions(query) {
+
+        const normalizedQuery =
+            normalize(query);
+
+
+        if (!normalizedQuery) {
+            return [];
+        }
+
+
+        const tokens =
+            getTokens(
+                normalizedQuery
+            );
+
+
+        return suggestionPool
+
+            .map(label => {
+
+                const normalizedLabel =
+                    normalize(label);
+
+
+                let score = 0;
+
+
+                /* Exact match */
+
+                if (
+                    normalizedLabel ===
+                    normalizedQuery
+                ) {
+
+                    score += 100;
+                }
+
+
+                /* Starts with search */
+
+                if (
+                    normalizedLabel.startsWith(
+                        normalizedQuery
+                    )
+                ) {
+
+                    score += 60;
+                }
+
+
+                /* Contains search */
+
+                if (
+                    normalizedLabel.includes(
+                        normalizedQuery
+                    )
+                ) {
+
+                    score += 30;
+                }
+
+
+                /* Individual words */
+
+                tokens.forEach(
+                    token => {
+
+                        if (
+                            normalizedLabel.includes(
+                                token
+                            )
+                        ) {
+
+                            score += 12;
+                        }
+
+                    }
+                );
+
+
+                return {
+                    label,
+                    score
+                };
+
+            })
+
+            .filter(
+                item =>
+                    item.score > 0
+            )
+
+            .sort(
+                (a, b) =>
+                    b.score - a.score ||
+                    a.label.localeCompare(
+                        b.label
+                    )
+            )
+
+            .slice(
+                0,
+                6
+            );
+    }
+
+
+    /* ==========================================================
+       HIGHLIGHT SEARCH
+       ========================================================== */
+
+    function highlightMatch(
+        text,
+        query
+    ) {
+
+        const tokens =
+            getTokens(query)
+                .sort(
+                    (a, b) =>
+                        b.length -
+                        a.length
+                );
+
+
+        let output =
+            String(text);
+
+
+        tokens.forEach(
+            token => {
+
+                const escaped =
+                    token.replace(
+                        /[.*+?^${}()|[\]\\]/g,
+                        "\\$&"
+                    );
+
+
+                output =
+                    output.replace(
+                        new RegExp(
+                            `(${escaped})`,
+                            "ig"
+                        ),
+                        "<mark>$1</mark>"
+                    );
+
+            }
+        );
+
+
+        return output;
+    }
+
+
+    /* ==========================================================
+       RENDER SUGGESTIONS
+       ========================================================== */
+
+    function renderSuggestions(
+        query
+    ) {
+
+        if (!suggestions) return;
+
+
+        const items =
+            getSuggestions(
+                query
+            );
+
+
+        /*
+         * Nothing typed or no matches:
+         * hide suggestions.
+         */
+
+        if (
+            !query ||
+            !items.length
+        ) {
+
+            closeSuggestions();
+
+            return;
+        }
+
+
+        suggestions.innerHTML =
+            items
+
+                .map(
+                    (item, index) => `
+
+                        <button
+                            type="button"
+                            class="shop-search-suggestion"
+                            role="option"
+                            aria-selected="${index ===
+                        selectedSuggestionIndex
+                        }"
+                            data-suggestion="${item.label
+                            .replace(
+                                /"/g,
+                                "&quot;"
+                            )
+                        }"
+                        >
+
+                            <span
+                                class="shop-search-suggestion-icon"
+                            >
+                                ⌕
+                            </span>
+
+                            <span>
+                                ${highlightMatch(
+                            item.label,
+                            query
+                        )}
+                            </span>
+
+                        </button>
+
+                    `
+                )
+
+                .join("");
+
+
+        suggestions.hidden = false;
+
+
+        /*
+         * Clicking a suggestion:
+         *
+         * 1. fills search
+         * 2. searches ALL products
+         * 3. keeps current category visually selected
+         * 4. closes suggestions
+         */
+
+        suggestions
+            .querySelectorAll(
+                ".shop-search-suggestion"
+            )
+            .forEach(
+                button => {
+
+                    button.addEventListener(
+                        "mousedown",
+                        event => {
+
+                            event.preventDefault();
+
+
+                            searchInput.value =
+                                button.dataset
+                                    .suggestion ||
+                                "";
+
+
+                            selectedSuggestionIndex =
+                                -1;
+
+
+                            filterProducts(
+                                false
+                            );
+
+
+                            closeSuggestions();
+
+
+                            searchInput.focus();
+
+                        }
+                    );
+
+                }
+            );
+    }
+
+
+    /* ==========================================================
+       RESULT COUNT
+       ========================================================== */
+
+    function updateStatus(
+        count,
+        query
+    ) {
+
+        if (!status) return;
+
+
+        if (!query) {
+
+            status.textContent =
+                "";
+
+            return;
+        }
+
+
+        const lang =
+            localStorage.getItem(
+                "lang"
+            ) || "en";
+
+
+        const messages = {
+
+            en: value =>
+                `${value} ${value === 1
+                    ? "product"
+                    : "products"
+                }`,
+
+            es: value =>
+                `${value} ${value === 1
+                    ? "producto"
+                    : "productos"
+                }`,
+
+            it: value =>
+                `${value} ${value === 1
+                    ? "prodotto"
+                    : "prodotti"
+                }`
+
+        };
+
+
+        status.textContent =
+            (
+                messages[lang] ||
+                messages.en
+            )(count);
+    }
+
+
+    /* ==========================================================
+       FILTER PRODUCTS
+       
+       IMPORTANT BEHAVIOUR:
+       
+       NO SEARCH:
+           category filter works normally.
+       
+       WITH SEARCH:
+           search ALL products.
+           Active category is temporarily ignored.
+       
+       This means:
+       
+       Cinema + "Pavarotti"
+           → searches ALL products
+       
+       Clear search
+           → returns to Cinema
+       ========================================================== */
+
+    function filterProducts(
+        showSuggestions = true
+    ) {
+
+        const query =
+            searchInput.value.trim();
+
+
+        let visibleCount =
+            0;
+
+
+        /* ========================================================
+           PRODUCTS
+           ======================================================== */
+
+        productIndex.forEach(
+            product => {
+
+                /*
+                 * Category matching
+                 */
+
+                const matchesCategory =
+                    activeCategory === "all" ||
+                    product.category ===
+                    activeCategory;
+
+
+                /*
+                 * Search matching
+                 */
+
+                const matchesSearch =
+                    productMatches(
+                        product,
+                        query
+                    );
+
+
+                /*
+                 * SEARCH HAS PRIORITY
+                 *
+                 * If there is text in the search
+                 * field, search across ALL products.
+                 *
+                 * If search is empty, use the
+                 * selected category normally.
+                 */
+
+                const visible =
+                    query
+                        ? matchesSearch
+                        : matchesCategory;
+
+
+                product.element.hidden =
+                    !visible;
+
+
+                if (visible) {
+
+                    visibleCount++;
+                }
+
+            }
+        );
+
+
+        /* ========================================================
+           EDITORIAL QUOTES
+           
+           Never show quotes while searching.
+           ======================================================== */
+
+        editorialQuotes.forEach(
+            quote => {
+
+                const quoteCategory =
+                    quote.dataset.category ||
+                    "";
+
+
+                quote.hidden =
+                    Boolean(query) ||
+
+                    (
+                        activeCategory !==
+                        "all" &&
+
+                        quoteCategory !==
+                        activeCategory
+                    );
+            }
+        );
+
+
+        /* ========================================================
+           CLEAR BUTTON
+           ======================================================== */
+
+        if (clearButton) {
+
+            clearButton.hidden =
+                !query;
+        }
+
+
+        /* ========================================================
+           RESULT COUNT
+           ======================================================== */
+
+        updateStatus(
+            visibleCount,
+            query
+        );
+
+
+        /* ========================================================
+           AUTOCOMPLETE
+           ======================================================== */
+
+        if (showSuggestions) {
+
+            renderSuggestions(
+                query
+            );
+        }
+
+    }
+
+
+    /* ==========================================================
+       CATEGORY FILTERS
+       ========================================================== */
+
+    categoryButtons.forEach(
+        button => {
+
+            button.addEventListener(
+                "click",
+                () => {
+
+                    activeCategory =
+                        button.dataset.filter ||
+                        "all";
+
+
+                    /*
+                     * Update active button
+                     */
+
+                    categoryButtons.forEach(
+                        item => {
+
+                            const active =
+                                item ===
+                                button;
+
+
+                            item.classList.toggle(
+                                "active",
+                                active
+                            );
+
+
+                            item.setAttribute(
+                                "aria-pressed",
+                                active
+                                    ? "true"
+                                    : "false"
+                            );
+
+                        }
+                    );
+
+
+                    /*
+                     * Close suggestions
+                     */
+
+                    closeSuggestions();
+
+
+                    /*
+                     * IMPORTANT:
+                     *
+                     * If a search is currently active,
+                     * changing the category does NOT
+                     * restrict the search.
+                     *
+                     * The search continues across
+                     * ALL products.
+                     */
+
+                    filterProducts(
+                        false
+                    );
+
+                }
+            );
+
+        }
+    );
+
+
+    /* ==========================================================
+       SEARCH INPUT
+       ========================================================== */
+
+    searchInput.addEventListener(
+        "input",
+        () => {
+
+            selectedSuggestionIndex =
+                -1;
+
+
+            /*
+             * Search automatically takes priority
+             * over the active category.
+             */
+
+            filterProducts(
+                true
+            );
+
+        }
+    );
+
+
+    /* ==========================================================
+       SEARCH FOCUS
+       ========================================================== */
+
+    searchInput.addEventListener(
+        "focus",
+        () => {
+
+            const query =
+                searchInput.value.trim();
+
+
+            if (query) {
+
+                renderSuggestions(
+                    query
+                );
+
+            } else {
+
+                /*
+                 * Empty search =
+                 * no suggestions.
+                 */
+
+                closeSuggestions();
+            }
+
+        }
+    );
+
+
+    /* ==========================================================
+       KEYBOARD NAVIGATION
+       ========================================================== */
+
+    searchInput.addEventListener(
+        "keydown",
+        event => {
+
+            const items =
+                suggestions?.querySelectorAll(
+                    ".shop-search-suggestion"
+                ) || [];
+
+
+            /* ----------------------------------------------------
+               ARROW DOWN
+               ---------------------------------------------------- */
+
+            if (
+                event.key ===
+                "ArrowDown" &&
+                items.length
+            ) {
+
+                event.preventDefault();
+
+
+                selectedSuggestionIndex =
+                    Math.min(
+                        selectedSuggestionIndex +
+                        1,
+                        items.length - 1
+                    );
+
+
+                items.forEach(
+                    (item, index) => {
+
+                        const selected =
+                            index ===
+                            selectedSuggestionIndex;
+
+
+                        item.classList.toggle(
+                            "is-selected",
+                            selected
+                        );
+
+
+                        item.setAttribute(
+                            "aria-selected",
+                            selected
+                                ? "true"
+                                : "false"
+                        );
+
+                    }
+                );
+
+
+                return;
+            }
+
+
+            /* ----------------------------------------------------
+               ARROW UP
+               ---------------------------------------------------- */
+
+            if (
+                event.key ===
+                "ArrowUp" &&
+                items.length
+            ) {
+
+                event.preventDefault();
+
+
+                selectedSuggestionIndex =
+                    Math.max(
+                        selectedSuggestionIndex -
+                        1,
+                        0
+                    );
+
+
+                items.forEach(
+                    (item, index) => {
+
+                        const selected =
+                            index ===
+                            selectedSuggestionIndex;
+
+
+                        item.classList.toggle(
+                            "is-selected",
+                            selected
+                        );
+
+
+                        item.setAttribute(
+                            "aria-selected",
+                            selected
+                                ? "true"
+                                : "false"
+                        );
+
+                    }
+                );
+
+
+                return;
+            }
+
+
+            /* ----------------------------------------------------
+               ENTER
+               ---------------------------------------------------- */
+
+            if (
+                event.key ===
+                "Enter" &&
+
+                selectedSuggestionIndex >= 0 &&
+
+                items[
+                selectedSuggestionIndex
+                ]
+            ) {
+
+                event.preventDefault();
+
+
+                searchInput.value =
+                    items[
+                        selectedSuggestionIndex
+                    ]
+                        .dataset
+                        .suggestion ||
+                    "";
+
+
+                selectedSuggestionIndex =
+                    -1;
+
+
+                /*
+                 * Apply search across ALL products.
+                 */
+
+                filterProducts(
+                    false
+                );
+
+
+                closeSuggestions();
+
+
+                return;
+            }
+
+
+            /* ----------------------------------------------------
+               ESC
+               ---------------------------------------------------- */
+
+            if (
+                event.key ===
+                "Escape"
+            ) {
+
+                /*
+                 * First ESC:
+                 * close suggestions.
+                 */
+
+                if (
+                    suggestions &&
+                    !suggestions.hidden
+                ) {
+
+                    closeSuggestions();
+
+                    return;
+                }
+
+
+                /*
+                 * Second ESC:
+                 * clear search.
+                 *
+                 * The selected category is then
+                 * automatically restored.
+                 */
+
+                if (
+                    searchInput.value
+                ) {
+
+                    searchInput.value =
+                        "";
+
+
+                    filterProducts(
+                        false
+                    );
+
+                }
+
+            }
+
+        }
+    );
+
+
+    /* ==========================================================
+       CLEAR BUTTON
+       ========================================================== */
+
+    if (clearButton) {
+
+        clearButton.addEventListener(
+            "click",
+            () => {
+
+                searchInput.value =
+                    "";
+
+
+                selectedSuggestionIndex =
+                    -1;
+
+
+                closeSuggestions();
+
+
+                /*
+                 * Search is empty again,
+                 * so the active category
+                 * becomes effective.
+                 */
+
+                filterProducts(
+                    false
+                );
+
+
+                searchInput.focus();
+
+            }
+        );
+
+    }
+
+
+    /* ==========================================================
+       CLICK OUTSIDE
+       ========================================================== */
+
+    document.addEventListener(
+        "mousedown",
+        event => {
+
+            if (
+                !event.target.closest(
+                    ".shop-search"
+                )
+            ) {
+
+                closeSuggestions();
+            }
+
+        }
+    );
+
+
+    /* ==========================================================
+       BLUR
+       ========================================================== */
+
+    searchInput.addEventListener(
+        "blur",
+        () => {
+
+            /*
+             * Small delay allows clicking
+             * a suggestion before closing.
+             */
+
+            setTimeout(
+                () => {
+                    closeSuggestions();
+                },
+                150
+            );
+
+        }
+    );
+
+
+    /* ==========================================================
+       INITIAL STATE
+       ========================================================== */
+
+    filterProducts(
+        false
+    );
+
+});
