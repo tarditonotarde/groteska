@@ -2923,10 +2923,7 @@ MOBILE MENU
 
 
 
-    #shop.collection .look-title {
-        font-size: 1.25rem;
-        line-height: 1.4;
-    }
+    #shop.collection .look-title {}
 
     #shop.collection .look-link {
         width: 100%;
