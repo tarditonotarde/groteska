@@ -921,7 +921,7 @@ body.menu-open {
     outline: none;
     box-shadow: 0 8px 30px rgba(0, 0, 0, .06);
     border: 1px solid #111;
-    color:#111
+    color: #111
 }
 
 /* We use our own clear button — no browser X. */
@@ -983,8 +983,7 @@ body.menu-open {
 
 .shop-search-clear::before {
     transform:
-        translate(-50%, -50%)
-        rotate(45deg);
+        translate(-50%, -50%) rotate(45deg);
 }
 
 
@@ -992,8 +991,7 @@ body.menu-open {
 
 .shop-search-clear::after {
     transform:
-        translate(-50%, -50%)
-        rotate(-45deg);
+        translate(-50%, -50%) rotate(-45deg);
 }
 
 
@@ -1104,7 +1102,9 @@ body.menu-open {
     .shop-search-input {
         height: 48px;
         padding-left: 16px;
-        font-size: .68rem;
+
+        /* Prevent mobile browser auto-zoom */
+        font-size: 16px;
     }
 
     .shop-search-clear {
