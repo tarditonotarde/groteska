@@ -895,11 +895,11 @@ body.menu-open {
     height: 56px;
     padding: 0 54px 0 20px;
 
-    border: 1px solid #111;
+    border: 1px solid #B1B1B1;
     border-radius: 0;
 
     background: rgba(250, 249, 246, .72);
-    color: #111;
+    color: #B1B1B1;
 
     font-family: var(--font-mono);
     font-size: .82rem;
@@ -914,15 +914,17 @@ body.menu-open {
 }
 
 .shop-search-input::placeholder {
-    color: #111;
-    opacity: .45;
+    color: #B1B1B1;
 }
 
 .shop-search-input:focus {
+    outline: none;
     box-shadow: 0 8px 30px rgba(0, 0, 0, .06);
+    border: 1px solid #111;
+    color:#111
 }
 
-/* We use our own clear button â€” no browser X. */
+/* We use our own clear button — no browser X. */
 .shop-search-input::-webkit-search-cancel-button,
 .shop-search-input::-webkit-search-decoration {
     -webkit-appearance: none;
@@ -937,7 +939,6 @@ body.menu-open {
 
     width: 30px;
 
-
     padding: 0;
     margin: 0;
 
@@ -950,9 +951,7 @@ body.menu-open {
 
     cursor: pointer;
 
-    opacity: .7;
-
-    transition: opacity .2s ease;
+    opacity: 1;
 }
 
 
@@ -976,9 +975,7 @@ body.menu-open {
 
     transform-origin: center center;
 
-    transition:
-        transform .2s ease,
-        width .2s ease;
+    transition: background-color .2s ease;
 }
 
 
@@ -986,7 +983,8 @@ body.menu-open {
 
 .shop-search-clear::before {
     transform:
-        translate(-50%, -50%) rotate(45deg);
+        translate(-50%, -50%)
+        rotate(45deg);
 }
 
 
@@ -994,7 +992,8 @@ body.menu-open {
 
 .shop-search-clear::after {
     transform:
-        translate(-50%, -50%) rotate(-45deg);
+        translate(-50%, -50%)
+        rotate(-45deg);
 }
 
 
@@ -1002,23 +1001,9 @@ body.menu-open {
    HOVER
    ================================================== */
 
-.shop-search-clear:hover {
-    opacity: 1;
-}
-
-
-/*
- * Rotate the entire X from its exact center.
- */
-
-.shop-search-clear:hover::before {
-    transform:
-        translate(-50%, -50%) rotate(135deg);
-}
-
+.shop-search-clear:hover::before,
 .shop-search-clear:hover::after {
-    transform:
-        translate(-50%, -50%) rotate(45deg);
+    background: #888;
 }
 
 
