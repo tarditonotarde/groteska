@@ -364,23 +364,47 @@
 
             </h2>
 
-            <div class="shop-search">
-                <label for="shop-search-input" class="sr-only">
-                    Search products
-                </label>
+<div class="shop-search">
 
-                <input type="text" id="shop-search-input" class="shop-search-input" placeholder="SEARCH PRODUCTS..."
-                    data-placeholder-en="SEARCH PRODUCTS..." data-placeholder-es="BUSCAR PRODUCTOS..."
-                    data-placeholder-it="CERCA PRODOTTI..." autocomplete="off">
+    <label for="shop-search-input" class="sr-only">
+        Search products
+    </label>
 
-                <button type="button" id="shop-search-clear" class="shop-search-clear" aria-label="Clear search"
-                    hidden></button>
+    <div class="shop-search-field">
 
-                <div id="shop-search-suggestions" class="shop-search-suggestions" role="listbox"
-                    aria-label="Search suggestions" hidden></div>
+        <input
+            type="text"
+            id="shop-search-input"
+            class="shop-search-input"
+            placeholder="SEARCH PRODUCTS..."
+            data-placeholder-en="SEARCH PRODUCTS..."
+            data-placeholder-es="BUSCAR PRODUCTOS..."
+            data-placeholder-it="CERCA PRODOTTI..."
+            autocomplete="off">
 
-                <div id="shop-search-status" class="shop-search-status" aria-live="polite" aria-atomic="true"></div>
-            </div>
+        <button
+            type="button"
+            id="shop-search-clear"
+            class="shop-search-clear"
+            aria-label="Clear search"
+            hidden></button>
+
+    </div>
+
+    <div
+        id="shop-search-suggestions"
+        class="shop-search-suggestions"
+        role="listbox"
+        aria-label="Search suggestions"
+        hidden></div>
+
+    <div
+        id="shop-search-status"
+        class="shop-search-status"
+        aria-live="polite"
+        aria-atomic="true"></div>
+
+</div>
 
         </section>
 
