@@ -832,7 +832,7 @@ body.menu-open {
 .hero {
     display: grid;
     grid-template-columns: repeat(24, 1fr);
-    padding-top: 140px;
+    padding-top: 136px;
     padding-bottom: 100px;
 }
 
@@ -979,6 +979,32 @@ body.menu-open {
 }
 
 .look-link:hover::after {
+    width: 100%;
+}
+
+.CTA-look-link {
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    letter-spacing: .18em;
+    position: relative;
+    padding: 10px 20px;
+    border: 1px solid #111;
+    display: flex;
+    justify-content: center;
+}
+
+.CTA-look-link::after {
+    content: "";
+    position: absolute;
+    bottom: -6px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: #111;
+    transition: var(--transition);
+}
+
+.CTA-look-link:hover::after {
     width: 100%;
 }
 
@@ -2004,6 +2030,10 @@ img.loaded {
         width: 100%;
         display: flex;
         justify-content: center;
+    }
+
+    .CTA-look-link {
+        font-size: 0.8rem;
     }
 
     .look-info-out-of-context .look-link {
