@@ -943,6 +943,13 @@ body.menu-open {
     line-height: 1.1;
 }
 
+.look-description {
+       font-family: var(--font-mono);
+    font-size: clamp(0.8rem, 0.8rem, 0.8rem);
+    letter-spacing: .1em;
+    text-transform: uppercase;
+}
+
 .look-title-xs {
     font-family: var(--font-mono);
     font-size: 1rem;
