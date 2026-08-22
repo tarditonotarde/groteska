@@ -2018,6 +2018,7 @@ img.loaded {
         font-family: var(--font-serif);
         font-size: 1rem;
         max-width: 100%;
+        font-weight: 500;
     }
 
     .look-info-out-of-context .look-title {
