@@ -192,14 +192,23 @@
         window.addEventListener("mousemove", (event) => {
             x = event.clientX;
             y = event.clientY;
+
             if (ticking) return;
+
             ticking = true;
             requestAnimationFrame(paint);
         }, { passive: true });
 
-        $$(".look img, .button, .look-link").forEach((element) => {
-            element.addEventListener("mouseenter", () => cursor.classList.add("active"));
-            element.addEventListener("mouseleave", () => cursor.classList.remove("active"));
+        const hoverTargets = $$(".look img, .button, .look-link, .desktop-link");
+
+        hoverTargets.forEach((element) => {
+            element.addEventListener("mouseenter", () => {
+                cursor.classList.add("active");
+            });
+
+            element.addEventListener("mouseleave", () => {
+                cursor.classList.remove("active");
+            });
         });
     }
 
@@ -343,6 +352,7 @@
     function initCookies() {
         const CONSENT_KEY = "groteska_cookie_consent";
         const GA_ID = "G-C589S8K7GR";
+
         const banner = $("#cookie-banner");
         const panel = $("#cookie-panel");
         const accept = $("#cookie-accept");
@@ -358,50 +368,125 @@
             if (window.__groteskaAnalyticsLoaded) return;
 
             window.dataLayer = window.dataLayer || [];
-            window.gtag = function () { window.dataLayer.push(arguments); };
+
+            window.gtag = function () {
+                window.dataLayer.push(arguments);
+            };
+
             window.gtag("js", new Date());
             window.gtag("config", GA_ID);
 
             const script = document.createElement("script");
             script.async = true;
             script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_ID}`;
+
             document.head.appendChild(script);
+
             window.__groteskaAnalyticsLoaded = true;
+        };
+
+        const closeBanner = () => {
+            banner.hidden = true;
+
+            if (panel) {
+                panel.hidden = true;
+            }
+
+            manage?.classList.add("is-visible");
         };
 
         const setConsent = (value) => {
             localStorage.setItem(CONSENT_KEY, value);
-            if (value === "accepted") loadAnalytics();
-            banner.hidden = true;
-            if (panel) panel.hidden = true;
-            manage?.classList.add("is-visible");
+
+            if (value === "accepted") {
+                loadAnalytics();
+            }
+
+            closeBanner();
         };
 
         const showBanner = () => {
             banner.hidden = false;
-            if (manage) manage.classList.remove("is-visible");
+
+            if (manage) {
+                manage.classList.remove("is-visible");
+            }
         };
 
         const showPanel = () => {
             if (!panel) return;
+
             panel.hidden = false;
-            if (analytics) analytics.checked = localStorage.getItem(CONSENT_KEY) === "accepted";
+
+            if (analytics) {
+                analytics.checked =
+                    localStorage.getItem(CONSENT_KEY) === "accepted";
+            }
+        };
+
+        const hidePanel = () => {
+            if (panel) {
+                panel.hidden = true;
+            }
         };
 
         const stored = localStorage.getItem(CONSENT_KEY);
-        if (!stored) showBanner();
-        else {
+
+        if (!stored) {
+            showBanner();
+        } else {
             manage?.classList.add("is-visible");
-            if (stored === "accepted") loadAnalytics();
+
+            if (stored === "accepted") {
+                loadAnalytics();
+            }
         }
 
-        accept?.addEventListener("click", () => setConsent("accepted"));
-        reject?.addEventListener("click", () => setConsent("rejected"));
-        configure?.addEventListener("click", showPanel);
-        save?.addEventListener("click", () => setConsent(analytics?.checked ? "accepted" : "rejected"));
-        manage?.addEventListener("click", () => {
+        /* ACCEPT */
+        accept?.addEventListener("click", () => {
+            setConsent("accepted");
+        });
+
+        /* REJECT */
+        reject?.addEventListener("click", () => {
+            setConsent("rejected");
+        });
+
+        /* CONFIGURE */
+        configure?.addEventListener("click", (event) => {
+            event.stopPropagation();
+
+            if (!panel) return;
+
+            if (panel.hidden) {
+                showPanel();
+            } else {
+                hidePanel();
+            }
+        });
+
+        /* SAVE PREFERENCES */
+        save?.addEventListener("click", () => {
+            setConsent(
+                analytics?.checked ? "accepted" : "rejected"
+            );
+        });
+
+        /* COOKIES — volver a abrir preferencias */
+        manage?.addEventListener("click", (event) => {
+            event.stopPropagation();
+
             showBanner();
             showPanel();
+        });
+
+        /* Cerrar al hacer click/tap fuera */
+        document.addEventListener("click", (event) => {
+            if (banner.hidden) return;
+
+            if (!banner.contains(event.target)) {
+                setConsent("rejected");
+            }
         });
     }
 

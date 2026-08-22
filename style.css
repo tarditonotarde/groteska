@@ -922,6 +922,12 @@ body.menu-open {
     filter: contrast(102%) brightness(101%);
 }
 
+.look-info-text {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
 .look-info {
     display: flex;
     justify-content: space-between;
