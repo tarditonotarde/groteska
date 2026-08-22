@@ -555,6 +555,8 @@ body.menu-open {
 
 .shop-search-field {
     position: relative;
+    justify-self: center;
+    max-width: 760px;
     width: 100%;
 }
 
